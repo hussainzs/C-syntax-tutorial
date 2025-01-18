@@ -14,12 +14,13 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Using `printf` to Print Strings](#using-printf-to-print-strings)
    - [Format Specifiers](#format-specifiers)
    - [Common Format Flags](#common-format-flags)
-   - [Examples](#examples)
 
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
 ### **1. Basic C Program Structure**
+
+Some of this maybe tricky to understand first. This section is meant to give a first expsoure to the concepts so atleast you are aware then you will master them as you practice more.
 
 Every C program follows a standard structure. Here's a simple example:
 
