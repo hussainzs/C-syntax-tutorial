@@ -1,5 +1,16 @@
 # C Programming Basics 
 
+Just keep reading and things will start to make sense even if you don't understand everything at first.
+
+# Table of Contents
+
+1. [Section 1: Basic Program Structure, Directives, Linking, Compiling](#section-1-basic-program-structure-directives-linking-compiling)
+- [Basic C Program Structure](#1-basic-c-program-structure)
+- [Directives](#2-directives)
+- [Header Files](#3-header-files)
+- [Compiling and Linking](#4-compiling-and-linking)
+- [The main Function](#5-the-main-function)
+
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
 ### **1. Basic C Program Structure**
@@ -47,9 +58,9 @@ Directives instruct the compiler to perform specific actions before actual compi
     #ifndef MYHEADER_H
     #define MYHEADER_H
     // code
-    #endif /* MYHEADER_H */
+    #endif 
     ```
-    - **Purpose:**
+    **Purpose:**
     - Prevents multiple inclusion of the same header file
     - Without guards, if file A.h includes B.h, and C.h also includes B.h, then B.h would be included twice
     - Multiple inclusions could cause compilation errors (duplicate definitions)
@@ -109,10 +120,6 @@ Header files contain declarations of functions and macros to be shared between s
 
 - TODO: Add later
 
----
-
-### **5. Executable File vs. Object File**
-
 | Aspect             | Object File (`.o` / `.obj`)             | Executable File (`.exe` / no extension) |
 |--------------------|-----------------------------------------|------------------------------------------|
 | **Contains**       | Machine code, but not fully linked      | Fully linked machine code ready to run   |
@@ -120,7 +127,7 @@ Header files contain declarations of functions and macros to be shared between s
 
 ---
 
-### **6. The `main` Function**
+### **5. The `main` Function**
 
 The `main` function is the entry point of every C program.
 
@@ -153,34 +160,3 @@ int main() {
   }
   ```
   *Note: Using `int main()` is standard and recommended.*
-
----
-
-### **7. Quick Reference Table**
-
-| Concept                | Syntax / Example                        | Description                                      |
-|------------------------|-----------------------------------------|--------------------------------------------------|
-| **Include Header**     | `#include <stdio.h>` or `#include "file.h"` | Incorporate standard or custom headers.          |
-| **Define Macro**      | `#define MAX 100`                       | Create constants or macros.                      |
-| **Main Function**     | `int main()` or `int main(int argc, char *argv[])` | Entry point of the program.                      |
-| **Variable Declaration** | `int x = 5;`                           | Declare an integer variable `x` with value `5`.   |
-| **Print Statement**   | `printf("Hello\n");`                    | Output text to the console.                       |
-| **Compile to Object** | `gcc -c program.c -o program.o`         | Compile source to object file.                    |
-| **Link to Executable**| `gcc program.o -o program.exe`          | Link object file to create executable.            |
-
----
-
-### **9. Summary**
-
-- **Program Structure:** Organized with directives, `main` function, and statements.
-- **Directives:** Instructions for the compiler, like including headers.
-- **Header Files:** Provide declarations for functions and macros.
-- **Compilation Process:** Involves preprocessing, compiling, assembling, and linking.
-- **Files:**
-  - **Object Files:** Intermediate machine code.
-  - **Executable Files:** Ready-to-run programs.
-- **Main Function:** Entry point, typically returns `0` for success.
-
----
-
-Feel free to ask for the next section or any clarifications!
