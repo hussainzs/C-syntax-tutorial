@@ -203,17 +203,35 @@ int main() {
 #### **Format Specifiers**
 
 - **Purpose:** Define what kind of data is being printed and how it should be formatted.
-- **Common Specifiers:**
+- **List of some Specifiers:**
 
 | Specifier | Description | Example Usage | Output |
 |-----------|-------------|---------------|---------|
 | `%s` | String | `printf("%s", "John");` | `"John"` |
-| `%d` | Signed decimal integer | `printf("%d", 42);` | `"42"` |
+| `%d` | Signed decimal integer | `printf("%d %d", 42, -42);` | `"42 -42"` |
+| `%u` | Unsigned decimal integer | `printf("%u %u", 42, -42);` | `"42 4294967254"` |
 | `%f` | Floating-point number | `printf("%.2f", 3.14159);` | `"3.14"` |
 | `%c` | Single character | `printf("%c", 'A');` | `"A"` |
+| `%p` | Pointer address | `printf("%p", ptr);` | `"0x7fff5fbff7e8"` |
 | `%x` | Hexadecimal (lowercase) | `printf("%x", 255);` | `"ff"` |
 | `%X` | Hexadecimal (uppercase) | `printf("%X", 255);` | `"FF"` |
 | `%%` | Literal % character | `printf("Score: 100%%");` | `"Score: 100%"` |
+| `%b` | Binary (C23, lowercase) | `printf("%b", 26);` | `"11010"` |
+| `%e` | Scientific notation (lowercase) | `printf("%e", 123.456);` | `"1.234560e+02"` |
+| `%g` | Shorter of %e or %f | `printf("%g", 123.456);` | `"123.456"` |
+| `%i` | Signed decimal integer (auto-detects base) | `printf("%i %i %i", 100, 0x64, 0144);` | `"100 100 100"` |
+| `%o` | Octal | `printf("%o", 64);` | `"100"` |
+| `%lf` | Double | `printf("%lf", 3.14159);` | `"3.141590"` |
+| `%Lf` | Long double | `printf("%Lf", 3.14159L);` | `"3.141590"` |
+
+Some notable features about these specifiers:
+
+- When given -42, `%u` interprets it as an unsigned value (4294967254 on a 32-bit system), while %d shows it as -42.
+- `%i` automatically detects the base of the number (decimal, hexadecimal, or octal).
+- Format specifiers can include width and precision modifiers (e.g., `%.2f` for 2 decimal places)
+- Length modifiers like `l` (long), `ll` (long long), `h` (short) can be added to many specifiers
+- The `%g` specifier automatically chooses between `%e` and `%f` based on the value's magnitude
+- For floating-point values, uppercase specifiers (`%E`, `%G`) will output uppercase `E` in scientific notation
 
 #### **Common Format Flags**
 
@@ -222,114 +240,25 @@ int main() {
 
 | Flag | Description | Example Usage | Output |
 |------|-------------|---------------|---------|
-| `-`  | Left-justify within field width | `printf("%-10s", "Hello");` | `"Hello     "` |
 | `+`  | Force sign for numbers | `printf("%+d", 42);` | `"+42"` |
 | `0`  | Pad with leading zeros | `printf("%05d", 123);` | `"00123"` |
-| ` `  | Space before positive numbers | `printf("% d % d", 5, -5);` | `" 5 -5"` |
-| `#`  | Alternate form | `printf("%#x", 255);` | `"0xff"` |
+| `#`  | Alternate form | `printf("%#.3f", 23.2);` | `"23.200"` |
 | `.`  | Precision control | `printf("%.2f", 3.14159);` | `"3.14"` |
+| `-`  | Left-justify within field width | `printf("%-10s World!", "Hello");` | "Hello&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;World!" |
 
-#### **Examples**
+Note that:
 
-1. **Printing a String with Width and Alignment:**
-    ```c
-    #include <stdio.h>
+The `#` flag adds prefixes to make number format explicit:
+- For hex: adds "0x" prefix
+- For octal: adds "0" prefix
+- For floating point: forces decimal point
+```c
+// Without # flag
+printf("%x", 255);    // Output: ff
+printf("%o", 64);     // Output: 100
 
-    int main() {
-        char name[] = "Alice";
-        printf("Name: %-10s!\n", name); // Left-justified within 10 spaces
-        return 0;
-    }
-    ```
-    **Output:**
-    ```
-    Name: Alice     !
-    ```
+// With # flag
+printf("%#x", 255);   // Output: 0xff
+printf("%#o", 64);    // Output: 0100
+```
 
-2. **Printing Numbers with Flags:**
-    ```c
-    #include <stdio.h>
-
-    int main() {
-        int num = 42;
-        printf("Number with plus sign: %+d\n", num);
-        printf("Number with leading zeros: %05d\n", num);
-        return 0;
-    }
-    ```
-    **Output:**
-    ```
-    Number with plus sign: +42
-    Number with leading zeros: 00042
-    ```
-
-3. **Printing Hexadecimal with `#` Flag:**
-    ```c
-    #include <stdio.h>
-
-    int main() {
-        int value = 255;
-        printf("Hexadecimal: %#x\n", value);
-        return 0;
-    }
-    ```
-    **Output:**
-    ```
-    Hexadecimal: 0xff
-    ```
-
-4. **Limiting String Length:**
-    ```c
-    #include <stdio.h>
-
-    int main() {
-        char str[] = "Hello, World!";
-        printf("First 5 characters: %.5s\n", str);
-        return 0;
-    }
-    ```
-    **Output:**
-    ```
-    First 5 characters: Hello
-    ```
-
-5. **Printing a Literal `%` Character:**
-    ```c
-    #include <stdio.h>
-
-    int main() {
-        printf("Completion: 100%%\n");
-        return 0;
-    }
-    ```
-    **Output:**
-    ```
-    Completion: 100%
-    ```
-
----
-
-**Quick Reference Tables**
-
-- **Format Specifiers:**
-
-  | Specifier | Data Type                  | Example Usage                 |
-  |-----------|----------------------------|-------------------------------|
-  | `%s`      | String                     | `printf("Name: %s", name);`   |
-  | `%d`      | Signed decimal integer     | `printf("Age: %d", age);`     |
-  | `%f`      | Floating-point number      | `printf("Score: %.2f", score);` |
-  | `%c`      | Single character           | `printf("Grade: %c", grade);` |
-  | `%x`      | Hexadecimal (lowercase)    | `printf("Hex: %x", value);`   |
-  | `%X`      | Hexadecimal (uppercase)    | `printf("Hex: %X", value);`   |
-  | `%%`      | Literal `%` character      | `printf("100%% Complete");`    |
-
-- **Format Flags:**
-
-  | Flag | Description                                         | Usage Example                |
-  |------|-----------------------------------------------------|------------------------------|
-  | `-`  | Left-justify within the field width                 | `printf("%-10s", name);`     |
-  | `+`  | Always show sign (`+` or `-`) for numeric types      | `printf("%+d", num);`         |
-  | `0`  | Pad numeric output with leading zeros               | `printf("%05d", num);`        |
-  | ` `  | Prefix positive numbers with a space                | `printf("% d", num);`         |
-  | `#`  | Use alternate form (e.g., `0x` for hex)             | `printf("%#x", value);`       |
-  | `.`  | Specify precision (decimal places or string length) | `printf("%.2f", score);`      |
