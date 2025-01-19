@@ -29,6 +29,10 @@ Just keep reading and things will start to make sense even if you don't understa
    - [The Dangling Else Problem](#the-dangling-else-problem)
    - [Ternary Operator](#ternary-operator)
    - [Switch Statement](#switch-statement)
+6. [Section 6: Loops](#section-6-loops)
+   - [6.1 While Loops](#61-while-loops)
+   - [6.2 For Loops](#62-for-loops)
+   - [6.3 Break and Continue Statements](#63-break-and-continue-statements)
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -767,5 +771,298 @@ As you can see above, nested if statements with lots of braces can be hard to re
   ```
   Output: Discount: 5.00%
   ```
+
+## Section 6: Loops
+
+Loops allow you to execute a block of code multiple times based on a condition. In C, the primary loop constructs are `while`, `for`, and loop control statements like `break` and `continue`.
+
+> Note: We omit the `do-while` loop since it's less common and `goto` due to the criticisms and potential misuse.
+
+### While Loops
+
+- **Execution Order:**
+  1. **Condition Check:** Evaluates the loop condition *before* each iteration. (**Note:** If the condition is false before the loop executes, the loop body will not execute even once).
+  2. **Code Execution:** Executes the loop body if the condition is true.
+  3. **Condition Check:** Check condition again after each iteration.
+
+- **Note:** `do-while` loops exist but are rarely used so we will focus on `while` and `for` loops.
+
+**Syntax**
+
+```c
+while (condition) {
+    // code to execute
+}
+```
+
+### Pitfalls
+
+- **Infinite Loops:**
+  - **Explanation:** Occur when the loop condition never becomes false.
+  - **Example:**
+    ```c
+    while (1) {
+        printf("This loop runs forever.\n");
+    }
+    ```
+  - **Expected Output:**
+    ```
+    This loop runs forever.
+    This loop runs forever.
+    This loop runs forever.
+    ...
+    ```
+
+- **Intentional Infinite Loops:**
+  - **Use Case:** Used in scenarios like event-driven programs or servers that run continuously until manually stopped.
+  - **Exiting the Loop:** Utilize `break` statements within conditional blocks to exit.
+  - **Example:**
+    ```c
+    #include <stdio.h>
+
+    int main() {
+        int number;
+
+        while (1) {
+            printf("Enter a positive number (negative to exit): ");
+            scanf("%d", &number);
+
+            if (number < 0) {
+                printf("Exiting loop.\n");
+                break;
+            }
+
+            printf("You entered: %d\n", number);
+        }
+
+        return 0;
+    }
+    ```
+
+  - **Expected Output:**
+    ```
+    Enter a positive number (negative to exit): 10
+    You entered: 10
+    Enter a positive number (negative to exit): 5
+    You entered: 5
+    Enter a positive number (negative to exit): -1
+    Exiting loop.
+    ```
+
+**Example: Simple Calculator**
+
+**Description:** Continuously takes user input for two numbers and an operator, performs the calculation, and displays the result. The loop continues until the user decides to exit.
+
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int main() {
+    char operator = '';
+    double num1 = 0.0, num2 = 0.0;
+    bool continueCalc = true;
+
+    while (continueCalc) {
+        printf("Enter operator (+, -, *, /) or 'q' to quit: ");
+        scanf(" %c", &operator); // pass a space before %c to consume the newline character
+
+        if (operator == 'q') {
+            break; // exit the loop if 'q' is entered
+        }
+
+        printf("Enter two operands: ");
+        scanf("%lf %lf", &num1, &num2);
+
+        switch (operator) {
+            case '+':
+                printf("Result: %.2lf + %.2lf = %.2lf\n", num1, num2, num1 + num2);
+                break;
+            case '-':
+                printf("Result: %.2lf - %.2lf = %.2lf\n", num1, num2, num1 - num2);
+                break;
+            case '*':
+                printf("Result: %.2lf * %.2lf = %.2lf\n", num1, num2, num1 * num2);
+                break;
+            case '/':
+                if (num2 != 0) // if-else inside the switch can be used to prevent division by zero
+                    printf("Result: %.2lf / %.2lf = %.2lf\n", num1, num2, num1 / num2);
+                else
+                    printf("Error: Division by zero.\n");
+                break;
+            default:
+                printf("Invalid operator.\n");
+        }
+    }
+
+    printf("Calculator exited.\n");
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Enter operator (+, -, *, /) or 'q' to quit: +
+Enter two operands: 5 3
+Result: 5.00 + 3.00 = 8.00
+Enter operator (+, -, *, /) or 'q' to quit: /
+Enter two operands: 10 2
+Result: 10.00 / 2.00 = 5.00
+Enter operator (+, -, *, /) or 'q' to quit: q
+Calculator exited.
+```
+
+### For Loops
+
+- Ideal for scenarios involving a known number of iterations, such as iterating through arrays or counting occurrences.
+
+**Syntax**
+
+```c
+for (initialization; condition; increment) {
+    // code to execute
+}
+```
+
+### C-specific Considerations
+
+- **Before C99:** Loop counter must be declared before the loop.
+  ```c
+  int i;
+  for (i = 0; i < 10; i++) {
+      // code
+  }
+  ```
+- **C99 and Later:** Allows declaring the loop counter within the loop.
+  ```c
+  for (int i = 0; i < 10; i++) {
+      // code
+  }
+  ```
+- **Scope:** Variables declared within the `for` loop are not accessible outside the loop.
+
+### Workflow
+
+1. **Initialization:** Sets the starting point (e.g., `int i = 0`).
+2. **Condition Check:** Evaluates the loop condition before each iteration (e.g., `i < 10`).
+3. **Loop Body Execution:** Executes the code block if the condition is true.
+4. **Increment/Decrement:** Updates the loop counter (e.g., `i++`).
+
+### Common Syntax Example
+
+**Example:** Print numbers from 1 to 5.
+
+```c
+#include <stdio.h>
+
+int main() {
+    for (int i = 1; i <= 5; i++) {
+        printf("Number: %d\n", i);
+    }
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 5
+```
+
+---
+
+## 6.3 Break and Continue Statements
+
+### Break Statement
+
+- **Purpose:** Immediately exits the innermost enclosing loop (`while`, `for`) or `switch` statement.
+- **Effect in Nested Loops:** Only exits the current loop, not all enclosing loops.
+
+**Example: Exit Loop When Number is Found**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int numbers[] = {3, 7, 2, 9, 5};
+    int target = 9;
+    int found = 0;
+
+    for (int i = 0; i < 5; i++) {
+        if (numbers[i] == target) {
+            printf("Number %d found at index %d.\n", target, i);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Number %d not found.\n", target);
+    }
+
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Number 9 found at index 3.
+```
+
+### Continue Statement
+
+- **Purpose:** Skips the remaining code in the current loop iteration and proceeds to the next iteration.
+- **Effect in Nested Loops:** Only affects the current loop level.
+
+**Example: Skip Even Numbers**
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Odd numbers between 1 and 5:\n");
+    for (int i = 1; i <= 5; i++) {
+        if (i % 2 == 0) {
+            continue; // Skip even numbers
+        }
+        printf("%d\n", i);
+    }
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Odd numbers between 1 and 5:
+1
+3
+5
+```
+
+**Contrast with Break Statement:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Numbers until 3:\n");
+    for (int i = 1; i <= 5; i++) {
+        if (i == 3) {
+            break; // Exit loop when i is 3
+        }
+        printf("%d\n", i);
+    }
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Numbers until 3:
+1
+2
+```
 
 
