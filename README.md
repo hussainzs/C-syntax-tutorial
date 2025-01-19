@@ -24,7 +24,11 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Side Effects and the Assignment Operator](#side-effects-and-the-assignment-operator)
    - [Compound Assignments and Increment/Decrement Operators](#compound-assignments-and-incrementdecrement-operators)
    - [Relational, Equality, and Logical Operators](#relational-equality-and-logical-operators)
-
+5. [Section 5: Conditional Statements](#section-5-conditional-statements)
+   - [If, Else Syntax](#if-else-syntax)
+   - [The Dangling Else Problem](#the-dangling-else-problem)
+   - [Ternary Operator](#ternary-operator)
+   - [Switch Statement](#switch-statement)
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -599,5 +603,164 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
     }
     ```
 
+## Section 5: Conditional Statements
+
+Conditional statements control the flow of a program based on certain conditions. In C, the primary conditional statements are `if`, `else`, the ternary operator, and `switch`.
+
+### If, Else Syntax
+
+- **`if` Statement**
+  - **Purpose:** Execute code block if a condition is true.
+  - **Syntax:**
+    ```c
+    if (condition) {
+        // code to execute if condition is true
+    }
+    ```
+  - **Example: Check Voting Eligibility**
+    ```c
+    int age = 20;
+    if (age >= 18) {
+        printf("Eligible to vote.\n");
+    }
+    ```
+
+- **`if-else` Statement**
+  - **Purpose:** Execute one block if condition is true, otherwise execute the "else" block.
+  - **Syntax:**
+    ```c
+    if (condition) {
+        // code if true
+    } else {
+        // code if false
+    }
+    ```
+  - **Example: Voting Eligibility with Else**
+    ```c
+    int age = 16;
+    if (age >= 18) {
+        printf("Eligible to vote.\n");
+    } else {
+        printf("Not eligible to vote.\n");
+    }
+    ```
+
+### The Dangling Else Problem
+
+- **Issue:** In nested `if` statements without braces, `else` binds to the nearest `if`, which might not be the intended one.
+- **C Rule:** `else` always associates with the closest preceding `if` not already associated.
+- **Example of Dangling Else:**
+  ```c
+    int x = 2;
+    if (x > 0)
+      if (x > 5)
+          printf("x is greater than 5\n");
+    else
+        printf("x is non-positive\n"); // Else binds to inner if
+  ```
+
+  ```
+  Output: x is non-positive
+  ```
+  - **Misinterpretation:** Indentation suggests `else` belongs to the outer `if`, but it binds to the inner `if`. So even tho x = 2 which is 
+  greater than 0 we still end up printing x is non-positive because the inner if condition returned false and the associated else block was executed.
+
+- **Solution:** Use braces to clearly define intended blocks.
+  ```c
+  if (x > 0) {
+      if (x > 10) {
+          printf("x is greater than 10\n");
+      }
+  } else {
+      printf("x is non-positive\n"); // Else now binds to outer if
+  }
+  ```
+
+### Switch Statement
+As you can see above, nested if statements with lots of braces can be hard to read and follow. The switch statement is a better alternative in such cases.
+- **Purpose:** Choose between multiple possible execution paths based on a single variable's value.
+- **Syntax:**
+  ```c
+  switch (expression) {
+      case value1:
+          // code block
+          break;
+      case value2:
+          // code block
+          break;
+      // ...
+      default:
+          // default code block
+  }
+  ```
+- **Advantages:** Preferred over cascaded `if-else` for multiple discrete cases.
+- **Important:** Always use `break` to prevent fall-through.
+- **Explanation of `break`:**
+  - **Function:** Exits the `switch` statement.
+
+> **Warning ⚠️** Missing `break` leads to execution of subsequent cases unintentionally.
+
+- **Example: Simple Calculator Operation**
+  ```c
+  char operator = '+';
+  int num1 = 8, num2 = 5, result;
+
+  switch (operator) {
+      case '+':
+          result = num1 + num2;
+          break;
+      case '-':
+          result = num1 - num2;
+          break;
+      case '*':
+          result = num1 * num2;
+          break;
+      case '/':
+          result = num1 / num2;
+          break;
+      default:
+          printf("Invalid operator.\n");
+  }
+  printf("Result: %d\n", result);
+  ```
+  ```
+  Output: Result: 13
+  ```
+
+- **`switch` Statement Components**
+
+| Component | Description |
+|-----------|-------------|
+| `switch(expression)` | Evaluates the expression once and compares it with each `case`. |
+| `case value:` | Defines a block of code to execute if `expression` matches `value`. |
+| `break;` | Exits the `switch` after executing a `case`. Prevents fall-through. |
+| `default:` | Optional. Executes if no `case` matches the `expression`. |
+
+### Ternary Operator
+
+- **Purpose:** Short-hand for simple `if-else` statements.
+- **Syntax:**
+  ```c
+  condition ? expression_if_true : expression_if_false;
+  ```
+- **Use Case:** Assign value based on a condition.
+- **Example: Determine Max of Two Numbers**
+  ```c
+  int a = 5, b = 10;
+  printf("Maximum is %d\n", (a > b) ? a : b);
+  ```
+  ```
+  Output: Maximum is 10
+  ```
+
+- **Usecase Example 2:** Assign discount based on customer type.
+  ```c
+  char customerType = 'R'; // 'R' for regular, 'P' for premium
+  float discount = (customerType == 'R') ? 0.05 : 0.10; // give 5% discount for regular customers and 10% for premium
+  printf("Discount: %.2f%%\n", discount * 100);
+  ```
+  ```
+  Output: Discount: 5.00%
+  ```
 
 
