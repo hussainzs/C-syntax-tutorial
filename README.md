@@ -552,9 +552,9 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
     
     int main() {
         int x = 5;
-        printf("Prefix: %d\n", ++x); // Outputs: 6
+        printf("Prefix: %d\n", ++x); // Outputs: 6 because x is incremented BEFORE use
         x = 5;
-        printf("Postfix: %d\n", x++); // Outputs: 5
+        printf("Postfix: %d\n", x++); // Outputs: 5 because x is incremented AFTER use
         printf("After Postfix: %d\n", x); // Outputs: 6
         return 0;
     }
@@ -585,7 +585,7 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
   | Operator | Description                                 | Example              |
   |----------|---------------------------------------------|----------------------|
   | `&&`     | Logical AND (both conditions must be true)  | `a > 0 && b > 0`     |
-  | `||`     | Logical OR (at least one condition true)    | `a > 0 || b > 0`     |
+  | `\|\|`    | Logical OR (at least one condition true)    | `a > 0 \|\| b > 0`   |
   | `!`      | Logical NOT (inverts the condition)         | `!a`                 |
 
 - **Short-Circuit Evaluation:**
@@ -598,16 +598,6 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
         // preventing a division by zero error.
     }
     ```
-  
-  - **Benefit:** Enhances performance and prevents unnecessary computations or errors.
 
----
 
-**Key Takeaways:**
-
-- **Understand Operator Types:** Knowing the different operators and their use cases is crucial for writing effective code.
-- **Be Cautious with Arithmetic Operations:** Especially with division and modulus, ensure operand types and values to avoid unexpected behavior.
-- **Avoid Side Effects:** Embedded assignments can lead to hard-to-find bugs; strive for clear and readable code.
-- **Choose the Right Increment/Decrement Operator:** Depending on whether you need the updated value immediately or after its use.
-- **Leverage Short-Circuiting:** Use logical operators wisely to optimize performance and prevent errors.
 
