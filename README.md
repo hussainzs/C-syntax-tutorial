@@ -30,9 +30,9 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Ternary Operator](#ternary-operator)
    - [Switch Statement](#switch-statement)
 6. [Section 6: Loops](#section-6-loops)
-   - [6.1 While Loops](#while-loops)
-   - [6.2 For Loops](#for-loops)
-   - [6.3 Break and Continue Statements](#break-and-continue-statements)
+   - [While Loops](#while-loops)
+   - [For Loops](#for-loops)
+   - [Break and Continue Statements](#break-and-continue-statements)
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -508,7 +508,6 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
   
 - **Why It's Bad Practice:**
   - **Readability:** Embedded assignments can make the code harder to read and understand.
-  - **Maintainability:** Increases the risk of introducing bugs.
   
 - **Lvalue:**
   - Assignment Operator in C requires an Lvalue on the left. Lvalue refers to an object that occupies identifiable memory locations so they can not be a constant or expression.
@@ -523,7 +522,7 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
 #### **Compound Assignments and Increment/Decrement Operators**
 
 - **Compound Assignment Operators:**
-  - **Purpose:** Combine an arithmetic operation with assignment.
+  - Combine an arithmetic operation with assignment.
   - **Common Operators:**
     - `+=`, `-=`, `*=`, `/=`, `%=` 
   - **Example:**
@@ -536,14 +535,14 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
   - **Purpose:** Increase or decrease a variable's value by one.
   - **Types:**
     - **Prefix:** `++variable` or `--variable`
-      - **Behavior:** Increments/decrements the value before it's used in the expression.
+      - Increments/decrements the value before it's used in the expression.
       - **Example:**
         ```c
         int a = 5;
         int b = ++a; // a becomes 6, then b is assigned 6
         ```
     - **Postfix:** `variable++` or `variable--`
-      - **Behavior:** Increments/decrements the value after it's used in the expression.
+      - Increments/decrements the value after it's used in the expression.
       - **Example:**
         ```c
         int a = 5;
@@ -597,7 +596,7 @@ The assignment operator (`=`) assigns the value on its right to the variable on 
   | `!`      | Logical NOT (inverts the condition)         | `!a`                 |
 
 - **Short-Circuit Evaluation:**
-  - **Definition:** Logical operators evaluate expressions from left to right and stop as soon as the result is determined.
+  - Logical operators evaluate expressions from left to right and stop as soon as the result is determined.
   - **Example:**
     ```c
     int a = 0;
@@ -703,9 +702,7 @@ As you can see above, nested if statements with lots of braces can be hard to re
   }
   ```
 - **Advantages:** Preferred over cascaded `if-else` for multiple discrete cases.
-- **Important:** Always use `break` to prevent fall-through.
-- **Explanation of `break`:**
-  - **Function:** Exits the `switch` statement.
+- **`break`:** Exits the `switch` statement. (see more below)
 
 > **Warning ⚠️** Missing `break` leads to execution of subsequent cases unintentionally.
 
@@ -747,7 +744,7 @@ As you can see above, nested if statements with lots of braces can be hard to re
 
 ### Ternary Operator
 
-- **Purpose:** Short-hand for simple `if-else` statements.
+- Short-hand for simple `if-else` statements.
 - **Syntax:**
   ```c
   condition ? expression_if_true : expression_if_false;
@@ -798,7 +795,7 @@ while (condition) {
 **Common Pitfalls**
 
 - **Infinite Loops:**
-  - **Explanation:** Occur when the loop condition never becomes false.
+  - Occur when the loop condition never becomes false.
   - **Example:**
     ```c
     while (1) {
@@ -814,7 +811,7 @@ while (condition) {
     ```
 
 - **Intentional Infinite Loops:**
-  - **Use Case:** Used in scenarios like event-driven programs or servers that run continuously until manually stopped.
+  - Used in scenarios like event-driven programs or servers that run continuously until manually stopped.
   - **Exiting the Loop:** Utilize `break` statements within conditional blocks to exit.
   - **Example:**
     ```c
@@ -979,8 +976,8 @@ Number: 5
 
 **Break Statement**
 
-- **Purpose:** Immediately exits the innermost enclosing loop (`while`, `for`) or `switch` statement. 
-- **Effect in Nested Loops:** Only exits the nearest loop, not all enclosing loops.
+- Immediately exits the innermost enclosing loop (`while`, `for`) or `switch` statement. 
+- Only exits the nearest loop, not all enclosing loops.
 
 **Example: Exit Loop When Number is Found**
 
@@ -1017,7 +1014,7 @@ Note that if `break` is used in a nested loop, only the inner loop is exited. Th
 
 ### Continue Statement
 
-- **Purpose:** Skips the remaining code in the current loop iteration and proceeds to the next iteration.
+- Skips the remaining code in the current loop iteration and proceeds to the next iteration.
 - **Effect in Nested Loops:** Only affects the current loop level.
 
 **Example: Skip Even Numbers**
