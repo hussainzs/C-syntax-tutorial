@@ -667,14 +667,19 @@ Conditional statements control the flow of a program based on certain conditions
 
 - **Solution:** Use braces to clearly define intended blocks.
   ```c
+  int x = 2;
   if (x > 0) {
-      if (x > 10) {
-          printf("x is greater than 10\n");
+      if (x > 5) {
+          printf("x is greater than 5\n");
       }
   } else {
       printf("x is non-positive\n"); // Else now binds to outer if
   }
   ```
+  ```
+  Output: 
+  ```
+  In this case nothing will be outputted beacuse the else block is associated with outer if which executed successfully. Meanwhile, the inner if condition returned false and had no else block associated with it so nothing was printed.
 
 ### Switch Statement
 As you can see above, nested if statements with lots of braces can be hard to read and follow. The switch statement is a better alternative in such cases.
