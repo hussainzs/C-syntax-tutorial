@@ -14,6 +14,10 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Using `printf` to Print Strings](#using-printf-to-print-strings)
    - [Format Specifiers](#format-specifiers)
    - [Common Format Flags](#common-format-flags)
+3. [Section 3: Variables](#section-3-variables)
+   - [Declaration and Initialization](#declaration-and-initialization)
+   - [Data Types in C](#data-types-in-c)
+   - [Examples: Using Variables](#examples-using-variables)
 
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
@@ -169,9 +173,9 @@ int main() {
   *Note: Using `int main()` is standard and recommended.*
 
 
-### Section 2: Printing Strings and Format Specifiers
+## Section 2: Printing Strings and Format Specifiers
 
-#### **Using `printf` to Print Strings**
+### **Using `printf` to Print Strings**
 
 - **`printf` Function:**
   - **Purpose:** Outputs formatted text to the console. 
@@ -201,7 +205,7 @@ int main() {
   - Enclosed in double quotes (`" "`).
   - Include escape sequences like `\n` for newline.
 
-#### **Format Specifiers**
+### **Format Specifiers**
 
 - **Purpose:** Define what kind of data is being printed and how it should be formatted.
 - **List of some Specifiers:**
@@ -234,7 +238,7 @@ Some notable features about these specifiers:
 - The `%g` specifier automatically chooses between `%e` and `%f` based on the value's magnitude
 - For floating-point values, uppercase specifiers (`%E`, `%G`) will output uppercase `E` in scientific notation
 
-#### **Common Format Flags**
+### **Common Format Flags**
 
 - **Purpose:** Modify the output format of `printf` specifiers.
 - **Flags and Their Effects:**
@@ -263,3 +267,134 @@ printf("%#x", 255);   // Output: 0xff
 printf("%#o", 64);    // Output: 0100
 ```
 
+## Section 3: Variables
+
+### **Declaration and Initialization**
+
+In C programming, **variables** are used to store data that your program can manipulate. Proper **declaration** and **initialization** of variables are crucial to ensure your program behaves as expected.
+
+- **Declaration:**
+  - **Syntax:** `<type> <variable_name>;`
+  - **Purpose:** Tells the compiler to allocate memory for the variable. for example, an int variable takes 4 bytes of memory, char takes 1 and so on.
+  - **Example:**
+    ```c
+    int age;
+    // multiple declarations
+    int a, b, c;
+    float price, discount, total;
+    bool isValid, isDone;
+    ```
+  
+- **Initialization:**
+  - **Syntax:** `<type> <variable_name> = <value>;`
+  - **Purpose:** Assigns an initial value to the variable at the time of declaration.
+  - **Example:**
+    ```c
+    int age = 25;
+    float price = 19.99f; // add an f to indicate float for the compiler
+    char grade = 'A';
+    // multiple initializations
+    int a = 10, b = 20, c = 30;
+    ```
+
+**Why Initialization Matters:**
+
+- **Undefined Values:**
+  - Declaring a variable without initializing it leaves the variable with an **undefined value**.
+  - Accessing or using an uninitialized variable can lead to **unpredictable behavior** or **bugs**.
+  
+- **Memory Perspective:**
+  - When a variable is declared, the compiler reserves a specific amount of memory based on its type.
+  - Without initialization, the memory location contains **garbage data** (undefined values from memory).
+
+  > **Warning ⚠️**: C will still execute your code even if you don't initialize variables, the result of that will be unpredictable and can lead to bugs that are hard to find. See the example below
+  
+- **Best Practices:**
+  - **Always initialize** variables with a value before use. 
+  - **Declare variables at the beginning** of a block to enhance code readability and maintainability.
+  
+**Example showcasing Bad Initialization Practice:**
+
+Imagine you forget to initialize a value to `age` in the following example, then the if condition will use whatever garbage/unexpected value is stored in the memory location reserved for `age` and will result in unpredictable behavior (sometimes the if condition will be true, sometimes false).
+
+```C
+#include <stdio.h>
+
+int main() {
+    int age;            // Uninitialized variable ⚠️bad practice⚠️
+    int bonus = 1000;   // Initialized variable
+    
+    // Let's pretend we forgot to assign a value to age
+    if (age > 0) {     // Using uninitialized variable!
+        bonus = bonus * 2; //double the bonus
+    }
+    
+    printf("Employee bonus: $%d\n", bonus); // Output: Employee bonus: $1000 or $2000 or error
+}
+```
+
+#### **Data Types in C**
+
+A **data type** specifies the type of data that a variable can hold. Understanding data types is essential for efficient memory usage and avoiding errors.
+
+| Data Type     | Description                                  | Example Declaration       |
+|---------------|----------------------------------------------|---------------------------|
+| `int`         | Stores integers (whole numbers)              | `int count = 10, temp = -2;`         |
+| `float`       | Stores single-precision floating-point numbers | `float temperature = 23.5f;` |
+| `double`      | Stores double-precision floating-point numbers | `double price = 19.99;`   |
+| `char`        | Stores single characters                      | `char grade = 'A';`       |
+| `unsigned int`| Stores non-negative integers                  | `unsigned int score = 100;` |
+| `long`        | Stores larger integers                        | `long distance = 123456L;` |
+| `short`       | Stores smaller integers                       | `short age = 25;`          |
+| `bool`        | Stores boolean values (`true` or `false`)     | `bool isValid = true;`     |
+
+>**Note:** To use the `bool` type, include the header `<stdbool.h>`.
+
+#### **Examples: Using Variables**
+
+Let's explore how different variable types can be declared, initialized, and used in simple arithmetic operations and printed using `printf`.
+
+```c
+#include <stdio.h>
+#include <stdbool.h> // Required for bool type
+
+int main() {
+    int apples = 10;
+    float pricePerApple = 0.50f; // add an f to indicate float for the compiler
+    double totalCost = -1; 
+
+    char grade = 'A';
+    unsigned int stock = 500; // we may use unsigned int because stock can't be negative, this is just a design choice however
+    long population = 7800000000L;
+    short temperature_celsius = 25; // be clear about the unit of your data when possible
+    bool isOpen = true;
+
+    // Simple Arithmetic
+    totalCost = apples * pricePerApple;
+
+    // Printing Variables
+    printf("Apples: %d\n", apples); // use the %d format specifier for int
+    printf("Price per Apple: $%.2f\n", pricePerApple); // price should be displayed with 2 decimal places so use %.2f
+    printf("Total Cost: $%.2f\n", totalCost); // total cost can be a large number so use the 'l' flag 
+    printf("Grade: %c\n", grade); 
+    printf("Stock Available: %u units\n", stock); // use format specifier %u for unsigned int
+    printf("World Population: %ld\n", population); // population is a large number so use 'l' flag with %d
+    printf("Temperature: %+hd°C\n", temperature_celsius); // use %hd for short int and + flag to show positive temperature as it matters
+    printf("Store Open: %s\n", isOpen ? "Yes" : "No"); // ternary operator ==> if isOpen is true print 'Yes' else print 'No'
+    return 0;
+}
+```
+
+**Output:**
+```
+Apples: 10
+Price per Apple: $0.50
+Total Cost: $5.00
+Grade: A
+Stock Available: 500 units
+World Population: 7800000000
+Temperature: +25°C
+Store Open: Yes
+```
+
+> Note: for `totalCost` we intialized a sentinal value of -1 to indicate that the value is not yet calculated. If execution reaches the print statement without updating the -1 value, it will be clear that the value is not calculated. We won't see some random garbage value and be confused. You must decide what a sentinal value should be based on your program requirements.
