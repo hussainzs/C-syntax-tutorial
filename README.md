@@ -18,6 +18,12 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Declaration and Initialization](#declaration-and-initialization)
    - [Data Types in C](#data-types-in-c)
    - [Examples: Using Variables](#examples-using-variables)
+4. [Section 4: Operators](#section-4-operators)
+   - [Types of Operators](#types-of-operators)
+   - [Arithmetic Operators](#arithmetic-operators)
+   - [Side Effects and the Assignment Operator](#side-effects-and-the-assignment-operator)
+   - [Compound Assignments and Increment/Decrement Operators](#compound-assignments-and-incrementdecrement-operators)
+   - [Relational, Equality, and Logical Operators](#relational-equality-and-logical-operators)
 
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
@@ -398,3 +404,210 @@ Store Open: Yes
 ```
 
 > Note: for `totalCost` we intialized a sentinal value of -1 to indicate that the value is not yet calculated. If execution reaches the print statement without updating the -1 value, it will be clear that the value is not calculated. We won't see some random garbage value and be confused. You must decide what a sentinal value should be based on your program requirements.
+
+
+## Section 4: Operators
+
+Operators  allow you to perform operations on variables and values. Understanding some non-obvious behaviors and best practices can help you write more bug free code.
+
+### **Types of Operators**
+
+1. **Arithmetic Operators:** Perform mathematical calculations.
+2. **Relational Operators:** Compare two values.
+3. **Logical Operators:** Combine multiple conditions.
+4. **Assignment Operators:** Assign values to variables.
+5. **Increment and Decrement Operators:** Increase or decrease a variable's value.
+
+---
+
+#### **Arithmetic Operators**
+
+Arithmetic operators are used to perform mathematical operations such as addition, subtraction, multiplication, division, and modulus.
+
+- **Common Arithmetic Operators:**
+
+  | Operator | Description               | Example        |
+  |----------|---------------------------|----------------|
+  | `+`      | Addition                  | `a + b`        |
+  | `-`      | Subtraction               | `a - b`        |
+  | `*`      | Multiplication            | `a * b`        |
+  | `/`      | Division                  | `a / b`        |
+  | `%`      | Modulus (remainder)       | `a % b`        |
+
+- **Important Notes:**
+  
+  - **Mixing `int` and `float`:**
+    - When performing operations between `int` and `float`, the `int` is implicitly converted to `float`, and the result is a `float`.
+    - **Example:**
+      ```c
+      int i = 70.99f;   // i will store 70 (fractional part truncated)
+      float j = 132;    // j will store 132.0
+      ```
+  
+  - **Division Operator `/`:**
+    - **Integer Division:** If both operands are integers, the division truncates the fractional part.
+      ```c
+      int result = 1 / 2; // result is 0 not 0.5
+      ```
+    - **Floating-Point Division:** If at least one operand is a `float`, the division retains the fractional part.
+      ```c
+      float result = 1 / 2.0f; // result is 0.5
+      ```
+  
+  - **Modulus Operator `%`:**
+    - **Usage:** Only applicable to integer operands.
+    - **Compilation Error:** Using `%` with non-integer types results in a compilation error.
+      ```c
+      int remainder = 5 % 2; // valid, remainder is 1
+      float invalid = 5.0f % 2; // error, since % is not defined for float
+      ```
+  
+  - **Division or Modulus by Zero:**
+    - **Undefined Behavior:** Dividing or taking modulus by zero leads to undefined behavior.
+    - **Modern Compilers:** Often throw a floating-point exception.
+      ```c
+      int division = 10 / 0; // Undefined, runtime error
+      ```
+  
+  - **Operator Precedence:**
+    - Determines the order in which operations are performed.
+    - **Example:** Multiplication and division have higher precedence than addition and subtraction.
+      ```c
+      int result = 3 + 4 * 2; // result is 11, not 14 because it's equivalent to 3 + (4 * 2)
+      ```
+    - **Best Practice:** Use parentheses to explicitly define the desired order.
+      ```c
+      int result = (3 + 4) * 2; // result is 14
+      ```
+
+---
+
+#### **Side Effects and the Assignment Operator**
+
+The assignment operator (`=`) assigns the value on its right to the variable on its left. However, assignments can have side effects, especially when used within expressions.
+
+- **Example of Side Effects:**
+  ```c
+  int j;
+  int i = 1;
+  int k = 1 + (j = i);
+  printf("%d %d %d\n", i, j, k); // Outputs: 1 1 2
+  ```
+  
+  **Explanation:**
+  - The expression `(j = i)` assigns the value of `i` to `j` and returns the assigned value (`1`).
+  - Therefore, `k` becomes `1 + 1`, which is `2`.
+  
+- **Why It's Bad Practice:**
+  - **Readability:** Embedded assignments can make the code harder to read and understand.
+  - **Maintainability:** Increases the risk of introducing bugs.
+  
+- **Lvalue:**
+  - Assignment Operator in C requires an Lvalue on the left. Lvalue refers to an object that occupies identifiable memory locations so they can not be a constant or expression.
+  - **Example:**
+    ```c
+    int a = 5;   // 'a' is an lvalue
+    5 = a;        // Error: 5 is not an lvalue
+    ```
+  
+---
+
+#### **Compound Assignments and Increment/Decrement Operators**
+
+- **Compound Assignment Operators:**
+  - **Purpose:** Combine an arithmetic operation with assignment.
+  - **Common Operators:**
+    - `+=`, `-=`, `*=`, `/=`, `%=` 
+  - **Example:**
+    ```c
+    int count = 10;
+    count += 5; // Equates to count = count + 5; // count is now 15
+    ```
+  
+- **Increment (`++`) and Decrement (`--`) Operators:**
+  - **Purpose:** Increase or decrease a variable's value by one.
+  - **Types:**
+    - **Prefix:** `++variable` or `--variable`
+      - **Behavior:** Increments/decrements the value before it's used in the expression.
+      - **Example:**
+        ```c
+        int a = 5;
+        int b = ++a; // a becomes 6, then b is assigned 6
+        ```
+    - **Postfix:** `variable++` or `variable--`
+      - **Behavior:** Increments/decrements the value after it's used in the expression.
+      - **Example:**
+        ```c
+        int a = 5;
+        int b = a++; // b is assigned 5, then a becomes 6
+        ```
+  
+  - **Side Effect:**
+    - **Prefix:** Useful when the updated value is needed immediately.
+    - **Postfix:** Useful when the original value is needed before updating.
+  
+  - **Example Showcasing Difference:**
+    ```c
+    #include <stdio.h>
+    
+    int main() {
+        int x = 5;
+        printf("Prefix: %d\n", ++x); // Outputs: 6
+        x = 5;
+        printf("Postfix: %d\n", x++); // Outputs: 5
+        printf("After Postfix: %d\n", x); // Outputs: 6
+        return 0;
+    }
+    ```
+  
+---
+
+#### **Relational, Equality, and Logical Operators**
+
+- **Relational Operators:** Compare two values and determine the relationship between them.
+
+  | Operator | Description               | Example        |
+  |----------|---------------------------|----------------|
+  | `>`      | Greater than              | `a > b`        |
+  | `<`      | Less than                 | `a < b`        |
+  | `>=`     | Greater than or equal to  | `a >= b`       |
+  | `<=`     | Less than or equal to     | `a <= b`       |
+
+- **Equality Operators:** Check if values are equal or not.
+
+  | Operator | Description     | Example        |
+  |----------|-----------------|----------------|
+  | `==`     | Equal to        | `a == b`       |
+  | `!=`     | Not equal to    | `a != b`       |
+
+- **Logical Operators:** Combine multiple conditions.
+
+  | Operator | Description                                 | Example              |
+  |----------|---------------------------------------------|----------------------|
+  | `&&`     | Logical AND (both conditions must be true)  | `a > 0 && b > 0`     |
+  | `||`     | Logical OR (at least one condition true)    | `a > 0 || b > 0`     |
+  | `!`      | Logical NOT (inverts the condition)         | `!a`                 |
+
+- **Short-Circuit Evaluation:**
+  - **Definition:** Logical operators evaluate expressions from left to right and stop as soon as the result is determined.
+  - **Example:**
+    ```c
+    int a = 0;
+    if (a != 0 && (10 / a) > 1) {
+        // This block will not execute, and (10 / a) is not evaluated,
+        // preventing a division by zero error.
+    }
+    ```
+  
+  - **Benefit:** Enhances performance and prevents unnecessary computations or errors.
+
+---
+
+**Key Takeaways:**
+
+- **Understand Operator Types:** Knowing the different operators and their use cases is crucial for writing effective code.
+- **Be Cautious with Arithmetic Operations:** Especially with division and modulus, ensure operand types and values to avoid unexpected behavior.
+- **Avoid Side Effects:** Embedded assignments can lead to hard-to-find bugs; strive for clear and readable code.
+- **Choose the Right Increment/Decrement Operator:** Depending on whether you need the updated value immediately or after its use.
+- **Leverage Short-Circuiting:** Use logical operators wisely to optimize performance and prevent errors.
+
