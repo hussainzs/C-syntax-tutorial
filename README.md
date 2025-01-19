@@ -30,9 +30,9 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Ternary Operator](#ternary-operator)
    - [Switch Statement](#switch-statement)
 6. [Section 6: Loops](#section-6-loops)
-   - [6.1 While Loops](#61-while-loops)
-   - [6.2 For Loops](#62-for-loops)
-   - [6.3 Break and Continue Statements](#63-break-and-continue-statements)
+   - [6.1 While Loops](#while-loops)
+   - [6.2 For Loops](#for-loops)
+   - [6.3 Break and Continue Statements](#break-and-continue-statements)
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -795,7 +795,7 @@ while (condition) {
 }
 ```
 
-### Pitfalls
+**Common Pitfalls**
 
 - **Infinite Loops:**
   - **Explanation:** Occur when the loop condition never becomes false.
@@ -858,13 +858,13 @@ while (condition) {
 #include <stdbool.h>
 
 int main() {
-    char operator = '';
+    char operator = '\0';
     double num1 = 0.0, num2 = 0.0;
     bool continueCalc = true;
 
     while (continueCalc) {
         printf("Enter operator (+, -, *, /) or 'q' to quit: ");
-        scanf(" %c", &operator); // pass a space before %c to consume the newline character
+        scanf(" %c", &operator); // pass a space before %c to consume the newline character \n from the previous input
 
         if (operator == 'q') {
             break; // exit the loop if 'q' is entered
@@ -890,7 +890,7 @@ int main() {
                     printf("Error: Division by zero.\n");
                 break;
             default:
-                printf("Invalid operator.\n");
+                printf("'%c' is an Invalid operator\n", operator);
         }
     }
 
@@ -898,6 +898,9 @@ int main() {
     return 0;
 }
 ```
+**Note**: We needed to add a space before %c in `scanf(" %c", &operator);` because the newline character \n is inserted automatically when the user presses Enter after entering the operands. Without the space, scanf will read the newline character as the operator in the next iteration and we will hit the default case of the switch statement.
+
+Also Note that we didn't need a space in `scanf("%lf %lf", &num1, &num2);` because the %f specifier automatically skips whitespace characters until it finds its target data type.
 
 **Expected Output:**
 ```
@@ -923,7 +926,7 @@ for (initialization; condition; increment) {
 }
 ```
 
-### C-specific Considerations
+**C-specific Considerations**
 
 - **Before C99:** Loop counter must be declared before the loop.
   ```c
@@ -938,18 +941,18 @@ for (initialization; condition; increment) {
       // code
   }
   ```
-- **Scope:** Variables declared within the `for` loop are not accessible outside the loop.
+- **Scope:** Variables declared within the `for` loop are not accessible outside the loop. So if you need to use the loop counter outside the loop, declare it before the loop like the old way.
 
-### Workflow
+**Workflow**
 
 1. **Initialization:** Sets the starting point (e.g., `int i = 0`).
 2. **Condition Check:** Evaluates the loop condition before each iteration (e.g., `i < 10`).
 3. **Loop Body Execution:** Executes the code block if the condition is true.
 4. **Increment/Decrement:** Updates the loop counter (e.g., `i++`).
 
-### Common Syntax Example
+**Example**
 
-**Example:** Print numbers from 1 to 5.
+Print numbers from 1 to 5.
 
 ```c
 #include <stdio.h>
@@ -971,14 +974,13 @@ Number: 4
 Number: 5
 ```
 
----
 
-## 6.3 Break and Continue Statements
+### Break and Continue Statements
 
-### Break Statement
+**Break Statement**
 
-- **Purpose:** Immediately exits the innermost enclosing loop (`while`, `for`) or `switch` statement.
-- **Effect in Nested Loops:** Only exits the current loop, not all enclosing loops.
+- **Purpose:** Immediately exits the innermost enclosing loop (`while`, `for`) or `switch` statement. 
+- **Effect in Nested Loops:** Only exits the nearest loop, not all enclosing loops.
 
 **Example: Exit Loop When Number is Found**
 
@@ -1011,6 +1013,8 @@ int main() {
 Number 9 found at index 3.
 ```
 
+Note that if `break` is used in a nested loop, only the inner loop is exited. The outer loop will continue executing.
+
 ### Continue Statement
 
 - **Purpose:** Skips the remaining code in the current loop iteration and proceeds to the next iteration.
@@ -1025,7 +1029,7 @@ int main() {
     printf("Odd numbers between 1 and 5:\n");
     for (int i = 1; i <= 5; i++) {
         if (i % 2 == 0) {
-            continue; // Skip even numbers
+            continue; // Skip printing even numbers
         }
         printf("%d\n", i);
     }
@@ -1064,5 +1068,5 @@ Numbers until 3:
 1
 2
 ```
-
+As you can see, the loop stops when `i` is 3 and does not print 4 and 5.
 
