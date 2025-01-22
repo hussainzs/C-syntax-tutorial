@@ -358,8 +358,8 @@ Unsigned integers represent only non-negative numbers, allowing a larger range o
 | Data Type     | Description                                  | Example Declaration       | Memory Size (Typical)     | Value Range                      |
 |---------------|----------------------------------------------|---------------------------|---------------------------|-----------------------------------|
 | `int`         | integers (whole numbers)              | `int count = 10, temp = -2;` | 4 bytes                  | -2,147,483,648 to 2,147,483,647  |
-| `float`       | single-precision floating-point numbers | `float temperature = 23.5f;` | 4 bytes                  | ±1.2E-38 to ±3.4E+38            |
-| `double`      | double-precision floating-point numbers | `double price = 19.99;`   | 8 bytes                  | ±2.3E-308 to ±1.7E+308          |
+| `float`       | floating-point numbers (approx. 6-7 decimal digits of precision) | `float temperature = 23.5f;` | 4 bytes                  | ±1.2E-38 to ±3.4E+38            |
+| `double`      | floating-point numbers (approx. 15 decimal digits of precision) | `double price = 19.99;`   | 8 bytes                  | ±2.3E-308 to ±1.7E+308          |
 | `char`        | single characters                      | `char grade = 'A';`       | 1 byte                   | 0 to 255 (or -128 to 127, signed)|
 | `unsigned int`| non-negative integers                  | `unsigned int score = 100;` | 4 bytes                  | 0 to 4,294,967,295              |
 | `long`        | larger integers                        | `long distance = 123456L;` | 8 bytes                  | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 |
