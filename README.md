@@ -18,6 +18,8 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Declaration and Initialization](#declaration-and-initialization)
    - [Data Types in C](#data-types-in-c)
    - [Examples: Using Variables](#examples-using-variables)
+   - [Type Conversion in C](#type-conversion-in-c)
+   - [Type Definitions](#type-definitions)
 4. [Section 4: Operators](#section-4-operators)
    - [Types of Operators](#types-of-operators)
    - [Arithmetic Operators](#arithmetic-operators)
@@ -347,7 +349,7 @@ int main() {
 }
 ```
 
-#### **Data Types in C**
+### **Data Types in C**
 
 A **data type** specifies the type of data that a variable can hold. 
 
@@ -371,7 +373,7 @@ Unsigned integers represent only non-negative numbers, allowing a larger range o
 
 > **Tip:** You can use `sizeof(<variable_name or constant name>)` to get the size of a variable in bytes. For example, `printf("%u", sizeof(23431241)"` will return 4 because an integer takes 4 bytes of memory.
 
-#### **Examples: Using Variables**
+### **Examples: Using Variables**
 
 Let's explore how different variable types can be declared, initialized, and used in simple arithmetic operations and printed using `printf`.
 
@@ -419,6 +421,80 @@ Store Open: Yes
 ```
 
 > Note: for `totalCost` we intialized a sentinal value of -1 to indicate that the value is not yet calculated. If execution reaches the print statement without updating the -1 value, it will be clear that the value is not calculated. We won't see some random garbage value and be confused. You must decide what a sentinal value should be based on your program requirements.
+
+### Type Conversion in C
+
+Type Conversion is the process of converting a value from one data type to another. This can happen implicitly (automatically by the compiler) or explicitly (manually by the programmer). 
+
+#### Implicit Type Conversion
+
+Implicit type conversion, also known as **type coercion**, occurs automatically when the compiler converts a *narrower* data type to a *broader* data type to allow operations between different types. This is done to prevent data loss and ensure compatibility. For example:
+
+- **int to float**: When an integer (narrows) is used in an expression with a float (broader), the integer is automatically converted to a float.
+  ```c
+  int a = 5;
+  float b = 2.5;
+  float result = a + b; // 'a' is implicitly converted to float so result is now float not int
+  ```
+
+- **short to int**: When a `short` (narrows) is used in an expression with an `int` (narrows), the `short` is promoted to an `int`.
+  ```c
+  short x = 10;
+  int y = 20;
+  int result = x + y; // 'x' is implicitly converted to int
+  ```
+
+#### Explicit Type Conversion
+
+Explicit type conversion, also known as **type casting**, is when the programmer manually converts a value from one type to another. This is done using the cast operator `(type)`. For example:
+
+- **float to int**: Converting a float to an integer truncates the decimal part.
+  ```c
+  float a = 3.14;
+  int b = (int)a; // Explicitly convert 'a' to int
+  ```
+
+- **int to char**: Converting an integer to a char truncates the value to fit within the range of a char.
+  ```c
+  int a = 65;
+  char b = (char)a; // Explicitly convert 'a' to char
+  ```
+
+- **unsigned to signed**: Converting an unsigned integer to a signed integer can lead to unexpected results if the value is too large.
+```c
+unsigned int x = 4294967295; // Maximum value for unsigned int
+int y = (int)x; // y will be -1 due to overflow
+printf("%d", y); // Output: -1
+```
+
+Explicit type conversion gives the programmer control over how data is interpreted, but it should be used carefully to avoid data loss or unexpected behavior.
+
+
+### Type Definitions
+
+The `typedef` keyword in C is used to create aliases for existing data types. This can make code more readable and easier to maintain, especially when dealing with complex data types or when the underlying type might change in the future.
+
+#### Example of Typedef
+
+Consider the following example where we define a new type `Dollars` as an alias for `float`:
+
+```c
+typedef float Dollars;
+Dollars buy_cost, sell_cost;
+```
+
+In this example, `Dollars` is treated as a synonym for `float` by the compiler. This means that `buy_cost` and `sell_cost` are essentially `float` variables, but using the `Dollars` type makes the code more intuitive and self-documenting.
+
+#### Benefits of Typedef
+
+- **Improved Readability**: By using meaningful type names like `Dollars`, the code becomes easier to understand.
+- **Ease of Maintenance**: If you later decide that all dollar-related variables should be of type `double` instead of `float`, you only need to change the `typedef` definition:
+  ```c
+  typedef double Dollars;
+  ```
+  This change will automatically update all variables of type `Dollars` throughout your code, reducing the risk of errors and saving time.
+
+> ✅ We will study `struct` and `enum` soon, typedef is often used with them in practice
 
 
 ## Section 4: Operators
