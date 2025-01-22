@@ -367,7 +367,9 @@ Unsigned integers represent only non-negative numbers, allowing a larger range o
 | `bool`        | boolean values (`true` or `false`)     | `bool isValid = true;`    | 1 byte                   | `true` or `false`               |
 
 
->**Note:** To use the `bool` type, include the header `<stdbool.h>`.
+>**Note:** To use the `bool` type, include the header `<stdbool.h>`
+
+> **Tip:** You can use `sizeof(<variable_name or constant name>)` to get the size of a variable in bytes. For example, `printf("%u", sizeof(23431241)"` will return 4 because an integer takes 4 bytes of memory.
 
 #### **Examples: Using Variables**
 
