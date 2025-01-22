@@ -349,18 +349,23 @@ int main() {
 
 #### **Data Types in C**
 
-A **data type** specifies the type of data that a variable can hold. Understanding data types is essential for efficient memory usage and avoiding errors.
+A **data type** specifies the type of data that a variable can hold. 
 
-| Data Type     | Description                                  | Example Declaration       |
-|---------------|----------------------------------------------|---------------------------|
-| `int`         | Stores integers (whole numbers)              | `int count = 10, temp = -2;`         |
-| `float`       | Stores single-precision floating-point numbers | `float temperature = 23.5f;` |
-| `double`      | Stores double-precision floating-point numbers | `double price = 19.99;`   |
-| `char`        | Stores single characters                      | `char grade = 'A';`       |
-| `unsigned int`| Stores non-negative integers                  | `unsigned int score = 100;` |
-| `long`        | Stores larger integers                        | `long distance = 123456L;` |
-| `short`       | Stores smaller integers                       | `short age = 25;`          |
-| `bool`        | Stores boolean values (`true` or `false`)     | `bool isValid = true;`     |
+> In C there are 2 kinds of numeric types: `signed` and `unsigned`. 
+> Signed integers can represent both positive and negative numbers, using one bit to indicate the sign (positive or negative). 
+Unsigned integers represent only non-negative numbers, allowing a larger range of positive values since all bits are used for the magnitude.
+
+| Data Type     | Description                                  | Example Declaration       | Memory Size (Typical)     | Value Range                      |
+|---------------|----------------------------------------------|---------------------------|---------------------------|-----------------------------------|
+| `int`         | integers (whole numbers)              | `int count = 10, temp = -2;` | 4 bytes                  | -2,147,483,648 to 2,147,483,647  |
+| `float`       | single-precision floating-point numbers | `float temperature = 23.5f;` | 4 bytes                  | ±1.2E-38 to ±3.4E+38            |
+| `double`      | double-precision floating-point numbers | `double price = 19.99;`   | 8 bytes                  | ±2.3E-308 to ±1.7E+308          |
+| `char`        | single characters                      | `char grade = 'A';`       | 1 byte                   | 0 to 255 (or -128 to 127, signed)|
+| `unsigned int`| non-negative integers                  | `unsigned int score = 100;` | 4 bytes                  | 0 to 4,294,967,295              |
+| `long`        | larger integers                        | `long distance = 123456L;` | 8 bytes                  | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 |
+| `short`       | smaller integers                       | `short age = 25;`         | 2 bytes                  | -32,768 to 32,767               |
+| `bool`        | boolean values (`true` or `false`)     | `bool isValid = true;`    | 1 byte                   | `true` or `false`               |
+
 
 >**Note:** To use the `bool` type, include the header `<stdbool.h>`.
 
