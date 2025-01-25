@@ -1242,43 +1242,65 @@ Student 5: 0
 
 #### Array Indexing Syntax
 
-- **Explanation:** Accessing `array[i]` is equivalent to `*(array + i)`.
+- Understand that the bracket notation for accessing an array element is syntactic sugar. Accessing `array[i]` is equivalent to dereferencing at index 0 + desired index. `*(array + i)` ==> in this example, `array` is the memory address of the first element.
+
+Below is an example to illustrate 3 different ways to access the same element in an array.
 - **Dereferencing Example:**
   ```c
-  int arr[3] = {5, 10, 15};
-  int *ptr = &arr[0];
-  printf("%d\n", *(ptr + 1)); // Outputs 10
-  printf("%d\n", arr[1]);     // Outputs 10 (Equivalent)
+    int arr[3] = {5, 10, 15};
+    
+    //syntax: using name which by default points to first element
+    printf("%d \n", *(arr + 1));
+    
+    //syntax: using explicit pointer
+    int *ptr = &arr[0]; //explicitely define pointer to first element
+    printf("%d\n", *(ptr + 1)); // add pointer + 1 and dereference
+    
+    //syntax: syntactic sugar bracket notation provided by C 
+    printf("%d\n", arr[1]);   
   ```
 
 #### Example: Temperature Recorder
 
-**Description:** Record temperatures for a week and display them.
+Record temperature for 7 days and then find the average temperature.
 
 ```c
 #include <stdio.h>
-#define DAYS 7
+#define NUM_DAYS 7
 
 int main() {
-    float temperatures[DAYS] = {23.5, 25.0, 22.8}; // Initialize first three days
-    printf("Weekly Temperatures:\n");
-    for (int i = 0; i < DAYS; i++) {
-        printf("Day %d: %.1f°C\n", i + 1, temperatures[i]);
-    }
-    return 0;
+  float temps[NUM_DAYS] = {0.0} // Initialize all elements to 0
+
+  //take input for each day
+  for (int i = 0; i < NUM_DAYS; i++) {
+    printf("Enter temperature for day %d: ", i + 1); // remember i starts from 0 but day starts from 1 thus i + 1
+    scanf("%f", &temps[i]); // to store the input into the array, we must pass the address of the element using &temps[i]
+  }
+
+  //average calculation
+  float sum = 0.0;
+  for (int i = 0; i < NUM_DAYS; i++) {
+    sum += temps[i];
+  }
+
+  float average = sum / NUM_DAYS;
+  printf("Average Temperature: %.2f°C\n", average); // remember to use %.2f to display 2 decimal places
+
 }
+
+
 ```
 
 **Expected Output:**
 ```
-Weekly Temperatures:
-Day 1: 23.5°C
-Day 2: 25.0°C
-Day 3: 22.8°C
-Day 4: 0.0°C
-Day 5: 0.0°C
-Day 6: 0.0°C
-Day 7: 0.0°C
+Enter temperature for day 1: 25
+Enter temperature for day 2: 30
+Enter temperature for day 3: 45
+Enter temperature for day 4: 22
+Enter temperature for day 5: 28
+Enter temperature for day 6: 33
+Enter temperature for day 7: 10
+Average Temperature: 27.57°C
 ```
 
 ### 7.3 Using `sizeof()` with Arrays
