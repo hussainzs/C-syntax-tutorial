@@ -39,8 +39,7 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Declaration and Initialization](#71-declaration-and-initialization)
    - [Array Access and Indexing](#72-array-access-and-indexing)
    - [Using `sizeof()` with Arrays](#73-using-sizeof-with-arrays)
-   - [Pointers and Arrays](#74-pointers-and-arrays)
-   - [Pitfalls: Out of Bounds Access](#75-pitfalls-out-of-bounds-access)
+   - [Pitfalls: Out of Bounds Access](#74-pitfalls-out-of-bounds-access)
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -1287,8 +1286,6 @@ int main() {
   printf("Average Temperature: %.2f°C\n", average); // remember to use %.2f to display 2 decimal places
 
 }
-
-
 ```
 
 **Expected Output:**
@@ -1305,15 +1302,12 @@ Average Temperature: 27.57°C
 
 ### 7.3 Using `sizeof()` with Arrays
 
-#### Calculating Array Length
+Can be used to find the length of an array at compile time. Remember `sizeof()` returns the size in bytes so to get the number of elements in an array, divide the total size of the array by the size of a single element. 
 
 - **Formula:**
   ```c
   int length = sizeof(array) / sizeof(array[0]);
   ```
-- **Explanation:** Divides the total size of the array by the size of one element to get the number of elements.
-
-#### Example: Dynamic Array Length
 
 ```c
 #include <stdio.h>
@@ -1339,69 +1333,8 @@ Array length: 10
 | `char`    | `char letters[10];`       | 10 bytes         | 1 byte             | 10                |
 | `float`   | `float temps[3];`         | 12 bytes         | 4 bytes            | 3                 |
 
-### 7.4 Pointers and Arrays
 
-#### Understanding `arr[i]` vs `*(arr + i)`
-
-- **Syntactic Sugar:** `arr[i]` is equivalent to `*(arr + i)`.
-- **Dereferencing with `&arr[i]`:** Obtains the memory address of the `i`-th element.
-
-**When to Use `&arr[i]`**
-
-- **Example Use Case:** Passing the address of an array element to a function.
-  
-  ```c
-  #include <stdio.h>
-
-  void increment(int *num) {
-      (*num)++;
-  }
-
-  int main() {
-      int arr[3] = {1, 2, 3};
-      increment(&arr[1]); // Pass address of second element
-      printf("Second element: %d\n", arr[1]);
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  Second element: 3
-  ```
-
-### Behind the Scenes
-
-- **Memory Representation:** Arrays are stored in contiguous memory locations.
-- **Pointer Arithmetic:** Adding an integer to a pointer moves it by that many elements, not bytes.
-
-Example: Pointer Traversal
-
-```c
-#include <stdio.h>
-
-int main() {
-    char letters[4] = {'a', 'b', 'c', 'd'};
-    char *ptr = letters; // Equivalent to &letters[0]
-
-    for (int i = 0; i < 4; i++) {
-        printf("Letter %d: %c (Address: %p)\n", i + 1, *(ptr + i), (void*)(ptr + i));
-    }
-    return 0;
-}
-```
-
-**Expected Output:**
-```
-Letter 1: a (Address: 0x7ffee3b2a9a0)
-Letter 2: b (Address: 0x7ffee3b2a9a1)
-Letter 3: c (Address: 0x7ffee3b2a9a2)
-Letter 4: d (Address: 0x7ffee3b2a9a3)
-```
-
-*Note: Memory addresses will vary each time the program runs.*
-
-### 7.5 Pitfalls: Out of Bounds Access
+### 7.4 Pitfalls: Out of Bounds Access
 
 #### Security Risks
 
@@ -1426,7 +1359,7 @@ int main() {
     printf("Enter an index (0-4): ");
     scanf("%d", &index);
 
-    if (index >= 0 && index < SIZE) {
+    if (index >= 0 && index < SIZE) { // Check if index is within bounds
         printf("Value at index %d: %d\n", index, numbers[index]);
     } else {
         printf("Error: Index out of bounds.\n");
@@ -1447,25 +1380,5 @@ Enter an index (0-4): 5
 Error: Index out of bounds.
 ```
 
-### Example: Unsafe Array Access (Do Not Use)
+> Note: Remember if you access out of bounds memory, C will not stop you and output whatever's is at that memory location.
 
-```c
-#include <stdio.h>
-
-int main() {
-    int arr[3] = {1, 2, 3};
-    printf("Accessing out-of-bounds element: %d\n", arr[5]); // Undefined behavior
-    return 0;
-}
-```
-
-**Potential Output:**
-```
-Accessing out-of-bounds element: 32767
-```
-*Note: The actual output is unpredictable and can lead to crashes or security issues.*
-
-### Warning
-
-- **Never assume user input is valid.** Always perform rigorous bounds checking.
-- **Use functions like `fgets()`** for safer input handling when dealing with strings and buffers.
