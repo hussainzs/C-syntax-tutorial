@@ -35,6 +35,12 @@ Just keep reading and things will start to make sense even if you don't understa
    - [While Loops](#while-loops)
    - [For Loops](#for-loops)
    - [Break and Continue Statements](#break-and-continue-statements)
+7. [Section 7: One-Dimensional Arrays](#section-7-one-dimensional-arrays)
+   - [Declaration and Initialization](#71-declaration-and-initialization)
+   - [Array Access and Indexing](#72-array-access-and-indexing)
+   - [Using `sizeof()` with Arrays](#73-using-sizeof-with-arrays)
+   - [Pointers and Arrays](#74-pointers-and-arrays)
+   - [Pitfalls: Out of Bounds Access](#75-pitfalls-out-of-bounds-access)
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -1150,3 +1156,294 @@ Numbers until 3:
 ```
 As you can see, the loop stops when `i` is 3 and does not print 4 and 5.
 
+
+## Section 7: One-Dimensional Arrays
+
+Arrays allow you to store multiple values of the same type in a single, contiguous block of memory. 
+
+### 7.1 Declaration and Initialization
+
+- **Syntax:**
+  ```c
+  type arrayName[arraySize];
+  ```
+- **Components:**
+  - `type`: Data type of the array elements (e.g., `int`, `char`, `float`).
+  - `arrayName`: Identifier for the array.
+  - `arraySize`: Fixed integer constant representing the number of elements.
+
+- **Best Practice:** Define a macro for array size to enhance readability 
+  ```c
+  #define ARRAY_SIZE 10
+  int numbers[ARRAY_SIZE];
+  ```
+
+#### Initialization
+
+- **Syntax:**
+  ```c
+  type arrayName[arraySize] = {value1, value2, ..., valueN};
+  ```
+- **Rules:**
+  - If fewer initializers are provided than the array size, the remaining elements are automatically initialized to zero.
+  - Example: Initializing all elements to zero or using boolean values.
+
+- **Examples:**
+  ```c
+  int arr[5] = {1, 2, 3};       // arr = {1, 2, 3, 0, 0}
+  int zeros[10] = {0};          // All elements set to 0
+  int bools[10] = {false};     // All elements set to 0 (false)
+  char letters[4] = {'a', 'b', 'c'}; // letters = {'a', 'b', 'c', '\0'}
+  ```
+
+#### Example: Student Grades Tracker
+
+**Description:** Track the grades of 5 students. Initialize the array with some grades and set the rest to zero.
+
+```c
+#include <stdio.h>
+#define NUM_STUDENTS 5
+
+int main() {
+    int grades[NUM_STUDENTS] = {85, 90}; // Initialize first two grades
+    printf("Student Grades:\n");
+    for (int i = 0; i < NUM_STUDENTS; i++) {
+        printf("Student %d: %d\n", i + 1, grades[i]);
+    }
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Student Grades:
+Student 1: 85
+Student 2: 90
+Student 3: 0
+Student 4: 0
+Student 5: 0
+```
+
+### 7.2 Array Access and Indexing
+
+#### Accessing Elements
+
+- **Syntax:**
+  ```c
+  arrayName[index]
+  ```
+- **Index Range:** `0` to `arraySize - 1`
+- **Example:**
+  ```c
+  int numbers[5] = {10, 20, 30, 40, 50};
+  printf("First number: %d\n", numbers[0]); // Outputs 10
+  printf("Last number: %d\n", numbers[4]);  // Outputs 50
+  ```
+
+#### Array Indexing Syntax
+
+- **Explanation:** Accessing `array[i]` is equivalent to `*(array + i)`.
+- **Dereferencing Example:**
+  ```c
+  int arr[3] = {5, 10, 15};
+  int *ptr = &arr[0];
+  printf("%d\n", *(ptr + 1)); // Outputs 10
+  printf("%d\n", arr[1]);     // Outputs 10 (Equivalent)
+  ```
+
+#### Example: Temperature Recorder
+
+**Description:** Record temperatures for a week and display them.
+
+```c
+#include <stdio.h>
+#define DAYS 7
+
+int main() {
+    float temperatures[DAYS] = {23.5, 25.0, 22.8}; // Initialize first three days
+    printf("Weekly Temperatures:\n");
+    for (int i = 0; i < DAYS; i++) {
+        printf("Day %d: %.1f°C\n", i + 1, temperatures[i]);
+    }
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Weekly Temperatures:
+Day 1: 23.5°C
+Day 2: 25.0°C
+Day 3: 22.8°C
+Day 4: 0.0°C
+Day 5: 0.0°C
+Day 6: 0.0°C
+Day 7: 0.0°C
+```
+
+### 7.3 Using `sizeof()` with Arrays
+
+#### Calculating Array Length
+
+- **Formula:**
+  ```c
+  int length = sizeof(array) / sizeof(array[0]);
+  ```
+- **Explanation:** Divides the total size of the array by the size of one element to get the number of elements.
+
+#### Example: Dynamic Array Length
+
+```c
+#include <stdio.h>
+
+int main() {
+    int arr[10] = {0};
+    int length = sizeof(arr) / sizeof(arr[0]);
+    printf("Array length: %d\n", length);
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Array length: 10
+```
+
+### Table: Using `sizeof()` with Different Data Types
+
+| Data Type | Example Array             | `sizeof(array)` | `sizeof(array[0])` | Calculated Length |
+|-----------|---------------------------|------------------|--------------------|-------------------|
+| `int`     | `int nums[5];`            | 20 bytes         | 4 bytes            | 5                 |
+| `char`    | `char letters[10];`       | 10 bytes         | 1 byte             | 10                |
+| `float`   | `float temps[3];`         | 12 bytes         | 4 bytes            | 3                 |
+
+### 7.4 Pointers and Arrays
+
+#### Understanding `arr[i]` vs `*(arr + i)`
+
+- **Syntactic Sugar:** `arr[i]` is equivalent to `*(arr + i)`.
+- **Dereferencing with `&arr[i]`:** Obtains the memory address of the `i`-th element.
+
+**When to Use `&arr[i]`**
+
+- **Example Use Case:** Passing the address of an array element to a function.
+  
+  ```c
+  #include <stdio.h>
+
+  void increment(int *num) {
+      (*num)++;
+  }
+
+  int main() {
+      int arr[3] = {1, 2, 3};
+      increment(&arr[1]); // Pass address of second element
+      printf("Second element: %d\n", arr[1]);
+      return 0;
+  }
+  ```
+
+  **Expected Output:**
+  ```
+  Second element: 3
+  ```
+
+### Behind the Scenes
+
+- **Memory Representation:** Arrays are stored in contiguous memory locations.
+- **Pointer Arithmetic:** Adding an integer to a pointer moves it by that many elements, not bytes.
+
+Example: Pointer Traversal
+
+```c
+#include <stdio.h>
+
+int main() {
+    char letters[4] = {'a', 'b', 'c', 'd'};
+    char *ptr = letters; // Equivalent to &letters[0]
+
+    for (int i = 0; i < 4; i++) {
+        printf("Letter %d: %c (Address: %p)\n", i + 1, *(ptr + i), (void*)(ptr + i));
+    }
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Letter 1: a (Address: 0x7ffee3b2a9a0)
+Letter 2: b (Address: 0x7ffee3b2a9a1)
+Letter 3: c (Address: 0x7ffee3b2a9a2)
+Letter 4: d (Address: 0x7ffee3b2a9a3)
+```
+
+*Note: Memory addresses will vary each time the program runs.*
+
+### 7.5 Pitfalls: Out of Bounds Access
+
+#### Security Risks
+
+- **Buffer Overflows:** Writing beyond the allocated memory can corrupt data, cause crashes, or create security vulnerabilities.
+- **Memory Exploits:** Attackers can exploit out-of-bounds access to execute arbitrary code.
+
+#### Importance of Bounds Checking
+
+- **Always validate indices** to ensure they are within the valid range (`0` to `arraySize - 1`).
+- **Example:** Preventing invalid user input from accessing array elements.
+
+#### Example: Safe Array Access
+
+```c
+#include <stdio.h>
+#define SIZE 5
+
+int main() {
+    int numbers[SIZE] = {10, 20, 30, 40, 50};
+    int index;
+
+    printf("Enter an index (0-4): ");
+    scanf("%d", &index);
+
+    if (index >= 0 && index < SIZE) {
+        printf("Value at index %d: %d\n", index, numbers[index]);
+    } else {
+        printf("Error: Index out of bounds.\n");
+    }
+
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Enter an index (0-4): 2
+Value at index 2: 30
+```
+*Or, if out of bounds:*
+```
+Enter an index (0-4): 5
+Error: Index out of bounds.
+```
+
+### Example: Unsafe Array Access (Do Not Use)
+
+```c
+#include <stdio.h>
+
+int main() {
+    int arr[3] = {1, 2, 3};
+    printf("Accessing out-of-bounds element: %d\n", arr[5]); // Undefined behavior
+    return 0;
+}
+```
+
+**Potential Output:**
+```
+Accessing out-of-bounds element: 32767
+```
+*Note: The actual output is unpredictable and can lead to crashes or security issues.*
+
+### Warning
+
+- **Never assume user input is valid.** Always perform rigorous bounds checking.
+- **Use functions like `fgets()`** for safer input handling when dealing with strings and buffers.
