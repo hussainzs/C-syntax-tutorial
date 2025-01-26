@@ -40,6 +40,8 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Array Access and Indexing](#72-array-access-and-indexing)
    - [Using `sizeof()` with Arrays](#73-using-sizeof-with-arrays)
    - [Pitfalls: Out of Bounds Access](#74-pitfalls-out-of-bounds-access)
+8. [Section 8: Two-Dimensional Arrays](#section-8-two-dimensional-arrays)
+   
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
 
@@ -1381,4 +1383,42 @@ Error: Index out of bounds.
 ```
 
 > Note: Remember if you access out of bounds memory, C will not stop you and output whatever's is at that memory location.
+
+## Section 8: Two Dimensional Arrays  
+There are many usecases of 2D arrays. We will briefly introduce the structure of 2D arrays and how to access elements.  
+
+### 8.1 Declaration and Initialization  
+A 2D array is declared with the syntax:  
+
+```c
+data_type array_name[rows][columns];
+```  
+
+Initialization can be done in several ways:  
+```c
+// Fully specified initialization
+int grid[2][3] = {{1, 2, 3}, {4, 5, 6}};
+
+// Partial initialization (remaining elements set to 0)
+int grid2[][3] = {{7}, {8, 9}}; // Row count inferred as 2
+```  
+
+> **Note**: The column size *must* be specified, while the row size can be inferred during initialization.  
+
+### 8.2 Accessing Elements  
+Elements are accessed using row and column indices: 
+
+```c
+int value = grid[1][2]; // Accesses 2nd row, 3rd column (value = 6)
+```  
+
+Use nested loops to traverse all elements:  
+```c
+for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 3; j++) {
+        printf("%d ", grid[i][j]);
+    }
+    printf("\n");
+}
+```  
 
