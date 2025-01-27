@@ -1,6 +1,8 @@
 # C Programming Basics 
 
-Just keep reading and things will start to make sense even if you don't understand everything at first.
+The content is inspired from the amazing book: [`C Programming - A Modern Approach by K.N. King`](https://archive.org/details/c-programming-a-modern-approach-2nd-ed-c-89-c-99-king-by/mode/2up). I have tried to add as many code examples as possible to illustrate the concepts. I have also tried giving reference tables. I provide concise bullet points to convey the ideas.
+
+I have also tried to cover some niche syntax that is not covered in most tutorials. My belief is that after reading this summarized introduction to C, you will have a good understanding of the language and might know a thing or two that many beginners don't know. 
 
 # Table of Contents
 
