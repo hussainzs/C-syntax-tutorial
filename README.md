@@ -1422,3 +1422,172 @@ for (int i = 0; i < 2; i++) {
 }
 ```  
 
+## Functions in C
+
+Functions are the building blocks of C programs. They allow you to break your code into reusable, modular pieces. 
+
+
+### The `main()` Function
+We have been using them since the beginning of this tutorial. 
+
+- **What is `main()`?**
+  - `main()` is a special function in C. It is the entry point of every C program.
+  - When you execute a C program, the operating system calls the `main()` function to start the program.
+  - It must have the exact name `main` and a specific return type (`int`).
+
+- **How does `main()` work?**
+  - `main()` resides in the program's stack memory when executed.
+  - It can take two optional parameters: `argc` (argument count) and `argv` (argument vector), which are used for command-line arguments.
+  - The program execution begins and ends within `main()`.
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Hello, this is the main function!\n");
+    return 0; // Indicates successful execution
+}
+```
+
+**Output:**
+```
+Hello, this is the main function!
+```
+
+
+### Function Declaration and Definition
+
+- **Syntax of a Function:**
+  ```c
+  return_type function_name(parameter1_type parameter1, parameter2_type parameter2, ...) {
+      // Function body
+      return value; // Optional, depending on return_type
+  }
+  ```
+
+- **Key Points:**
+  - **Return Type:** Specifies the type of value the function returns. Use `void` if the function doesn’t return anything.
+  - **Function Name:** Must be unique and follow C’s naming rules.
+  - **Parameters:** Optional. Specify the data type and name of each parameter.
+  - **Function Body:** Contains the code to be executed.
+
+- **Example:**
+  ```c
+  #include <stdio.h>
+
+  // Function declaration and definition
+  int add(int a, int b) {
+      return a + b;
+  }
+
+  int main() {
+      int result = add(5, 3); // Function call
+      printf("Result: %d\n", result);
+      return 0;
+  }
+  ```
+
+  **Output:**
+  ```
+  Result: 8
+  ```
+
+- **Returning Arrays:**
+  - Functions cannot return arrays directly but can return pointers to arrays declared outside their scope.
+
+
+### Calling Functions and Return Values
+
+- **How to Call a Function:**
+  - Use the function name followed by parentheses `()` and pass arguments if required.
+  - Example: `int sum = add(10, 20);`
+
+- **Ignoring Return Values:**
+  - You can call a function and ignore its return value.
+  - Example: `add(5, 10);` (The result is not stored or used.)
+
+- **Function Prototypes:**
+  - A function prototype declares a function without defining it.
+  - Useful for multi-file programs or when defining functions after they are called.
+  - Example:
+    ```c
+    #include <stdio.h>
+
+    // Function prototype
+    void greet();
+
+    int main() {
+        greet(); // Function call
+        return 0;
+    }
+
+    // Function definition
+    void greet() {
+        printf("Hello from the greet function!\n");
+    }
+    ```
+
+  **Output:**
+  ```
+  Hello from the greet function!
+  ```
+
+### Passing Multiple Parameters
+
+- Functions can accept multiple parameters of different types.
+- Example:
+  ```c
+  #include <stdio.h>
+
+  // Function to calculate the area of a rectangle
+  float calculateArea(float length, float width) {
+      return length * width;
+  }
+
+  int main() {
+      float area = calculateArea(5.5, 3.2);
+      printf("Area of the rectangle: %.2f\n", area);
+      return 0;
+  }
+  ```
+
+  **Output:**
+  ```
+  Area of the rectangle: 17.60
+  ```
+
+
+### Function Prototypes
+
+- **What are Function Prototypes?**
+  - A function prototype is a declaration of a function that specifies its name, return type, and parameters.
+  - It allows you to define the function after it is called.
+
+- **Why Use Prototypes?**
+  - They are essential in multi-file programs where functions are defined in separate files.
+  - They help the compiler understand the function’s signature before it is used.
+
+- **Example:**
+  ```c
+  #include <stdio.h>
+
+  // Function prototype
+  void printMessage(char message[]);
+
+  int main() {
+      printMessage("This is a function prototype example!");
+      return 0;
+  }
+
+  // Function definition
+  void printMessage(char message[]) {
+      printf("%s\n", message);
+  }
+  ```
+
+  **Output:**
+  ```
+  This is a function prototype example!
+  ```
+
+
