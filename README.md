@@ -41,6 +41,8 @@ Just keep reading and things will start to make sense even if you don't understa
    - [Using `sizeof()` with Arrays](#73-using-sizeof-with-arrays)
    - [Pitfalls: Out of Bounds Access](#74-pitfalls-out-of-bounds-access)
 8. [Section 8: Two-Dimensional Arrays](#section-8-two-dimensional-arrays)
+    - [Declaration and Initialization](#81-declaration-and-initialization)
+    - [Accessing Elements](#82-accessing-elements)
    
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
@@ -1428,40 +1430,25 @@ Functions are the building blocks of C programs. They allow you to break your co
 
 
 ### The `main()` Function
-We have been using them since the beginning of this tutorial. 
+We have been using this function since the beginning of this tutorial. 
 
-- **What is `main()`?**
   - `main()` is a special function in C. It is the entry point of every C program.
   - When you execute a C program, the operating system calls the `main()` function to start the program.
   - It must have the exact name `main` and a specific return type (`int`).
 
-- **How does `main()` work?**
+**How does `main()` work?**
   - `main()` resides in the program's stack memory when executed.
-  - It can take two optional parameters: `argc` (argument count) and `argv` (argument vector), which are used for command-line arguments.
-  - The program execution begins and ends within `main()`.
-
-```c
-#include <stdio.h>
-
-int main() {
-    printf("Hello, this is the main function!\n");
-    return 0; // Indicates successful execution
-}
-```
-
-**Output:**
-```
-Hello, this is the main function!
-```
-
+  - It can take two optional parameters: `argc` (argument count) and `argv` (argument vector), which are used for command-line arguments. Though often not written explicitly.
+  - It returns an integer value to the operating system, indicating the program's status. `0` indicates successful execution, while a non-zero value indicates an error.
 
 ### Function Declaration and Definition
 
 - **Syntax of a Function:**
   ```c
   return_type function_name(parameter1_type parameter1, parameter2_type parameter2, ...) {
-      // Function body
-      return value; // Optional, depending on return_type
+      // declarations
+      // statements
+      return value; // mandatory for non-void functions
   }
   ```
 
@@ -1471,34 +1458,13 @@ Hello, this is the main function!
   - **Parameters:** Optional. Specify the data type and name of each parameter.
   - **Function Body:** Contains the code to be executed.
 
-- **Example:**
-  ```c
-  #include <stdio.h>
 
-  // Function declaration and definition
-  int add(int a, int b) {
-      return a + b;
-  }
-
-  int main() {
-      int result = add(5, 3); // Function call
-      printf("Result: %d\n", result);
-      return 0;
-  }
-  ```
-
-  **Output:**
-  ```
-  Result: 8
-  ```
-
-- **Returning Arrays:**
-  - Functions cannot return arrays directly but can return pointers to arrays declared outside their scope.
+> Note: Functions cannot return arrays directly but can return pointers to arrays declared outside their scope.
 
 
 ### Calling Functions and Return Values
 
-- **How to Call a Function:**
+- **How to Call a Function?**
   - Use the function name followed by parentheses `()` and pass arguments if required.
   - Example: `int sum = add(10, 20);`
 
@@ -1506,88 +1472,52 @@ Hello, this is the main function!
   - You can call a function and ignore its return value.
   - Example: `add(5, 10);` (The result is not stored or used.)
 
-- **Function Prototypes:**
-  - A function prototype declares a function without defining it.
-  - Useful for multi-file programs or when defining functions after they are called.
-  - Example:
-    ```c
-    #include <stdio.h>
-
-    // Function prototype
-    void greet();
-
-    int main() {
-        greet(); // Function call
-        return 0;
-    }
-
-    // Function definition
-    void greet() {
-        printf("Hello from the greet function!\n");
-    }
-    ```
-
-  **Output:**
-  ```
-  Hello from the greet function!
-  ```
-
-### Passing Multiple Parameters
-
-- Functions can accept multiple parameters of different types.
-- Example:
-  ```c
-  #include <stdio.h>
-
-  // Function to calculate the area of a rectangle
-  float calculateArea(float length, float width) {
-      return length * width;
-  }
-
-  int main() {
-      float area = calculateArea(5.5, 3.2);
-      printf("Area of the rectangle: %.2f\n", area);
-      return 0;
-  }
-  ```
-
-  **Output:**
-  ```
-  Area of the rectangle: 17.60
-  ```
-
-
 ### Function Prototypes
 
 - **What are Function Prototypes?**
   - A function prototype is a declaration of a function that specifies its name, return type, and parameters.
-  - It allows you to define the function after it is called.
+  - It allows you to declare the function (without defining it) before the function is called. You can then define the function after it is called.
 
 - **Why Use Prototypes?**
-  - They are essential in multi-file programs where functions are defined in separate files.
-  - They help the compiler understand the function’s signature before it is used.
+  - They are essential in header. files which we will cover later.
+  - They help the compiler understand the function’s signature before it is used. Otherwise, the compiler does an implicit declaration however if the function later has an issue, the compiler will throw an error which can be hard to debug due to the flow of the program.
 
 - **Example:**
-  ```c
+```C
   #include <stdio.h>
 
-  // Function prototype
-  void printMessage(char message[]);
+  // Function declarations (function prototypes) 
+  float calculateArea(float radius);
+  float calculatePerimeter(float radius);
 
   int main() {
-      printMessage("This is a function prototype example!");
+      float radius = 5.0;
+      float area = calculateArea(radius); // function call
+      float perimeter = calculatePerimeter(radius);
+
+      printf("Circle with radius %.2f:\n", radius);
+      printf("Area: %.2f\n", area);
+      printf("Perimeter: %.2f\n", perimeter);
+
       return 0;
   }
 
-  // Function definition
-  void printMessage(char message[]) {
-      printf("%s\n", message);
+  // Function definitions
+  float calculateArea(float radius) {
+      return 3.14159 * radius * radius;
   }
-  ```
 
-  **Output:**
-  ```
-  This is a function prototype example!
-  ```
+  float calculatePerimeter(float radius) {
+      return 2 * 3.14159 * radius;
+  }
+```
+
+
+**Output:**
+```
+  Circle with radius 5.00:
+  Area: 78.54
+  Perimeter: 31.42
+```
 
 
