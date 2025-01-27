@@ -43,6 +43,11 @@ Just keep reading and things will start to make sense even if you don't understa
 8. [Section 8: Two-Dimensional Arrays](#section-8-two-dimensional-arrays)
     - [Declaration and Initialization](#81-declaration-and-initialization)
     - [Accessing Elements](#82-accessing-elements)
+9. [Section 9: Functions](#functions-in-c)
+    - [`main()` Function](#the-main-function)
+    - [Function Declaration and Definition](#function-declaration-and-definition)
+    - [Function Calling and Return Values](#calling-functions-and-return-values)
+    - [Function Prototypes](#function-prototypes)
    
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
