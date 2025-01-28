@@ -56,7 +56,6 @@ I have also tried to cover some niche syntax that is not covered in most tutoria
    - [Pointer Variables](#pointer-variables)
    - [Declaring Pointers](#declaring-pointers)
    - [Dereferencing Pointers](#dereferencing-pointers)
-   - [Uses of Pointers](#uses-of-pointers)
    - [Common Confusions and Best Practices](#common-confusions-and-best-practices)
    
 
@@ -1741,87 +1740,6 @@ New value of num after modification: 30
   int *ptr; // Uninitialized pointer
   *ptr = 50; // You are storing 50 at a random memory location which is undefined behavior and may cause a crash
   ```
-
-### Uses of Pointers
-
-#### 1. Working with Arrays
-
-- Accessing array elements using pointers.
-  ```c
-  #include <stdio.h>
-
-  int main() {
-      int arr[5] = {10, 20, 30, 40, 50};
-      int *p = arr; // Pointer to the first element
-
-      printf("First element: %d\n", *p);
-      printf("Third element using pointer arithmetic: %d\n", *(p + 2));
-
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  First element: 10
-  Third element using pointer arithmetic: 30
-  ```
-
-#### 2. Pointers as Function Parameters
-
-- Swapping two variables using pointers.
-  ```c
-  #include <stdio.h>
-
-  void swap(int *a, int *b) {
-      int temp = *a;
-      *a = *b;
-      *b = temp;
-  }
-
-  int main() {
-      int x = 5, y = 10;
-      printf("Before swap: x = %d, y = %d\n", x, y);
-      swap(&x, &y);
-      printf("After swap: x = %d, y = %d\n", x, y);
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  Before swap: x = 5, y = 10
-  After swap: x = 10, y = 5
-  ```
-
-#### 3. Pointers Returning from Functions
-
-- **Example:** Returning a pointer from a function.
-  ```c
-  #include <stdio.h>
-
-  int* getMax(int *a, int *b) {
-      if (*a > *b)
-          return a;
-      else
-          return b;
-  }
-
-  int main() {
-      int num1 = 15, num2 = 25;
-      int *maxPtr = getMax(&num1, &num2);
-
-      printf("The maximum value is %d\n", *maxPtr);
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  The maximum value is 25
-  ```
-
-  *Note: Never return pointers to local variables as they go out of scope.*
 
 ### Common Confusions and Best Practices
 
