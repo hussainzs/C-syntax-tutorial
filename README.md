@@ -52,11 +52,11 @@ I have also tried to cover some niche syntax that is not covered in most tutoria
     - [Function Calling and Return Values](#calling-functions-and-return-values)
     - [Function Prototypes](#function-prototypes)
 10. [Section 10: Pointers](#section-9-pointers)
-   - [Understanding Memory](#understanding-memory)
-   - [Pointer Variables](#pointer-variables)
-   - [Declaring Pointers](#declaring-pointers)
-   - [Dereferencing Pointers](#dereferencing-pointers)
-   - [Common Confusions and Best Practices](#common-confusions-and-best-practices)
+    - [Understanding Memory](#understanding-memory)
+    - [Pointer Variables](#pointer-variables)
+    - [Declaring Pointers](#declaring-pointers)
+    - [Dereferencing Pointers](#dereferencing-pointers)
+    - [Common Confusions and Best Practices](#common-confusions-and-best-practices)
    
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
