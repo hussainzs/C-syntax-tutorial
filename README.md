@@ -51,6 +51,13 @@ I have also tried to cover some niche syntax that is not covered in most tutoria
     - [Function Declaration and Definition](#function-declaration-and-definition)
     - [Function Calling and Return Values](#calling-functions-and-return-values)
     - [Function Prototypes](#function-prototypes)
+10. [Section 10: Pointers](#section-9-pointers)
+   - [Understanding Memory](#understanding-memory)
+   - [Pointer Variables](#pointer-variables)
+   - [Declaring Pointers](#declaring-pointers)
+   - [Dereferencing Pointers](#dereferencing-pointers)
+   - [Uses of Pointers](#uses-of-pointers)
+   - [Common Confusions and Best Practices](#common-confusions-and-best-practices)
    
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
@@ -1606,15 +1613,7 @@ We have been using this function since the beginning of this tutorial.
   Perimeter: 31.42
 ```
 
-9. [Section 9: Pointers](#section-9-pointers)
-   - [Understanding Memory](#understanding-memory)
-   - [Pointer Variables](#pointer-variables)
-   - [Declaring Pointers](#declaring-pointers)
-   - [Dereferencing Pointers](#dereferencing-pointers)
-   - [Uses of Pointers](#uses-of-pointers)
-   - [Common Confusions and Best Practices](#common-confusions-and-best-practices)
-
-# Section 9: Pointers
+# Section 10: Pointers
 
 Pointers differentiate C from other high-level languages. They provide direct access to memory addresses, trusting the programmer to manage and optimize the memory usage. Java, Python, JavaScript, and other languages abstract memory management, making them easier to use but less efficient.
 
@@ -1745,36 +1744,9 @@ New value of num after modification: 30
 
 ### Uses of Pointers
 
-#### 1. Dynamic Memory Allocation
+#### 1. Working with Arrays
 
-- **Example:** Allocating memory at runtime using `malloc`.
-  ```c
-  #include <stdio.h>
-  #include <stdlib.h>
-
-  int main() {
-      int *ptr = (int*)malloc(sizeof(int));
-      if (ptr == NULL) {
-          printf("Memory allocation failed.\n");
-          return 1;
-      }
-
-      *ptr = 50;
-      printf("Value stored at dynamically allocated memory: %d\n", *ptr);
-
-      free(ptr); // Freeing allocated memory
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  Value stored at dynamically allocated memory: 50
-  ```
-
-#### 2. Working with Arrays
-
-- **Example:** Accessing array elements using pointers.
+- Accessing array elements using pointers.
   ```c
   #include <stdio.h>
 
@@ -1795,9 +1767,9 @@ New value of num after modification: 30
   Third element using pointer arithmetic: 30
   ```
 
-#### 3. Pointers as Function Parameters
+#### 2. Pointers as Function Parameters
 
-- **Example:** Swapping two variables using pointers.
+- Swapping two variables using pointers.
   ```c
   #include <stdio.h>
 
@@ -1822,7 +1794,7 @@ New value of num after modification: 30
   After swap: x = 10, y = 5
   ```
 
-#### 4. Pointers Returning from Functions
+#### 3. Pointers Returning from Functions
 
 - **Example:** Returning a pointer from a function.
   ```c
@@ -1870,55 +1842,6 @@ New value of num after modification: 30
     - **Left Side of `=`:** Declaring a pointer.
     - **Right Side of `=`:** Dereferencing to get the value.
 
-#### Pointer to Pointer Simplified
-
-- A pointer that holds the address of another pointer.
-- **Use Case:** Useful in scenarios like dynamic memory allocation for multi-dimensional arrays.
-  
-- **Example:**
-  ```c
-  #include <stdio.h>
-
-  int main() {
-      int var = 88;
-      int *p = &var;
-      int **pp = &p;
-
-      printf("Value of var: %d\n", var);
-      printf("Value pointed to by p: %d\n", *p);
-      printf("Value pointed to by pp: %d\n", **pp);
-
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  Value of var: 88
-  Value pointed to by p: 88
-  Value pointed to by pp: 88
-  ```
-
-#### Printing the Address of a Variable
-
-- **Using `%p` Format Specifier:**
-  ```c
-  #include <stdio.h>
-
-  int main() {
-      int a = 10;
-      printf("Address of a: %p\n", (void*)&a);
-      return 0;
-  }
-  ```
-
-  **Expected Output:**
-  ```
-  Address of a: 0x7ffee3b2a9a0
-  ```
-
-  *Note: The actual address will vary each time the program runs.*
-
 #### Best Practices
 
 - **Always Initialize Pointers:**
@@ -1938,5 +1861,3 @@ New value of num after modification: 30
   int *agePtr;    // Pointer to age variable
   char *namePtr;  // Pointer to name string
   ```
-
-- **Be Cautious with Pointer Arithmetic:** Ensure calculations stay within array bounds to prevent undefined behavior.
