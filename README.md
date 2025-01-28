@@ -45,6 +45,7 @@ I have also tried to cover some niche syntax that is not covered in most tutoria
 8. [Section 8: Two-Dimensional Arrays](#section-8-two-dimensional-arrays)
     - [Declaration and Initialization](#81-declaration-and-initialization)
     - [Accessing Elements](#82-accessing-elements)
+    - [Example Printing and Manipulating 2D Arrays](#example-program-tic-tac-toe-board)
 9. [Section 9: Functions](#functions-in-c)
     - [`main()` Function](#the-main-function)
     - [Function Declaration and Definition](#function-declaration-and-definition)
@@ -1430,6 +1431,84 @@ for (int i = 0; i < 2; i++) {
     printf("\n");
 }
 ```  
+
+### Example Program: Tic-Tac-Toe Board
+
+```c
+#include <stdio.h>
+
+#define ROWS 3
+#define COLS 3
+
+int main() {
+    // Initialize a 3x3 matrix representing a Tic-Tac-Toe board
+    char board[ROWS][COLS] = {
+        {'X', 'O', 'X'},
+        {'O', 'X', 'O'},
+        {' ', ' ', 'X'}
+    };
+
+    printf("Tic-Tac-Toe Board:\n");
+
+    // Loop through each row 
+    for (int i = 0; i < ROWS; i++) {
+        // Loop through each column in the current row
+        for (int j = 0; j < COLS; j++) {
+            printf(" %c ", board[i][j]); // Print the cell value
+            // Separator between columns except for the last column
+            if (j < COLS - 1) {
+                printf("|"); 
+            }
+        }
+        printf("\n"); // Newline after each row
+
+        // Print a horizontal line after each row except the last
+        if (i < ROWS - 1) {
+            printf("---|---|---\n");
+        }
+    }
+
+    // Example of accessing and modifying an element
+    // Suppose you detected that Player marks 'O' at position (row = 2, column = 0)
+    board[2][0] = 'O';
+    printf("\nAfter Player 'O' makes a move at (3,1):\n");
+
+    // Display the updated board (in section 9 we will learn functions to avoid repetition)
+    printf("Tic-Tac-Toe Board:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf(" %c ", board[i][j]);
+            if (j < COLS - 1) {
+                printf("|");
+            }
+        }
+        printf("\n");
+        if (i < ROWS - 1) {
+            printf("---|---|---\n");
+        }
+    }
+
+    return 0;
+}
+```
+
+**Expected Output:**
+```
+Tic-Tac-Toe Board:
+ X | O | X 
+---|---|---
+ O | X | O 
+---|---|---
+   |   | X 
+
+After Player 'O' makes a move at (3,1):
+Tic-Tac-Toe Board:
+ X | O | X 
+---|---|---
+ O | X | O 
+---|---|---
+ O |   | X 
+```
 
 ## Functions in C
 
