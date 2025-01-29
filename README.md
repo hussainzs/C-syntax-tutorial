@@ -1915,7 +1915,6 @@ Pointers are compared based on their memory addresses.
 
 ### Pointers for Array Processing  
 
-**Method 1: Using Pointer Notation**  
 We can traverse an array using explicit pointer notation:
 
 ```c
@@ -1944,11 +1943,11 @@ Let’s implement a program that finds the maximum number in an array using poin
 ```c
 #include <stdio.h>
 
-int findMax(int *arr, int size) {
-    int max = *arr;  // Assume first element is max
-    for (int *ptr = arr + 1; ptr < arr + size; ptr++) {
-        if (*ptr > max) {
-            max = *ptr;
+int findMax(int arr[], int size) { // int arr[] = int *arr = pointer to first element of array
+    int max = arr[0];  // setting max to first element by default
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) { // arr[i] is equivalent to *(arr + i)
+            max = arr[i];
         }
     }
     return max;
@@ -1969,8 +1968,5 @@ int main() {
 ```
 The maximum value in the array is: 89
 ```
-### **Explanation:**  
-- `findMax()` receives a pointer to an array and iterates through it using pointer arithmetic.
-- `ptr < arr + size` ensures we stay within bounds.
-- The function returns the maximum value found.
+
 
