@@ -1807,25 +1807,27 @@ int main() {
 **Output:**  
 ```
 First element: 10
+First element: 10
 ```
-Here, `ptr` is assigned `numbers`, which is the address of the first element in the array. Accessing `*ptr` gives `10`, the first element.
+**Note:** Here, `ptr` is assigned `numbers`, which is the address of the first element in the array. Accessing `*ptr` gives `10`, the first element.
+- Thus realize that `numbers` is equivalent to `&numbers[0]` as it gives address to the first element in array. 
+- `*numbers` is equivalent to `numbers[0]` as it gives the value at the first element in the array.
 
----
 
-## **Pointer Arithmetic**  
+### Pointer Arithmetic 
 C supports three fundamental pointer arithmetic operations:
 
-### **1. Adding an Integer to a Pointer**  
-When you add an integer `n` to a pointer, it moves forward by `n * sizeof(type)`.  
+**1. Adding an Integer to a Pointer**  
+When you add an integer `n` to a pointer, it moves forward by `n * sizeof(type)`.  where type is the data type of the pointer.
 
 ```c
 #include <stdio.h>
 
 int main() {
     int arr[] = {100, 200, 300, 400, 500};
-    int *ptr = arr;
+    int *ptr = arr; //pointer to first element of arr (value at index 0  is 100 in arr)
 
-    printf("Pointer address: %p, Value: %d\n", ptr, *ptr);
+    printf("Pointer address: %p, Value: %d\n", ptr, *ptr); //address = ptr, value at that address = *ptr
     ptr++;  // Moves to the next element
     printf("Pointer address: %p, Value: %d\n", ptr, *ptr);
 
@@ -1838,9 +1840,9 @@ int main() {
 Pointer address: 0x12345678, Value: 100
 Pointer address: 0x1234567C, Value: 200
 ```
-The address increases by `sizeof(int)`, typically `4 bytes`.
+The address increases by `sizeof(int)`, typically `4 bytes`. This means you don't have to worry about adding the correct bytes manually.
 
-### **2. Subtracting an Integer from a Pointer**  
+**2. Subtracting an Integer from a Pointer**  
 Subtracting an integer `n` moves the pointer backward by `n * sizeof(type)`.
 
 ```c
@@ -1848,7 +1850,7 @@ Subtracting an integer `n` moves the pointer backward by `n * sizeof(type)`.
 
 int main() {
     int arr[] = {10, 20, 30, 40, 50};
-    int *ptr = &arr[3];
+    int *ptr = &arr[3]; //adress to 40 (element at index 3)
 
     printf("Pointer address: %p, Value: %d\n", ptr, *ptr);
     ptr--;  // Moves to the previous element
@@ -1865,7 +1867,7 @@ Pointer address: 0x12345680, Value: 30
 ```
 Again, it moves back by `sizeof(int)` bytes.
 
-### **3. Subtracting One Pointer from Another**  
+**3. Subtracting One Pointer from Another**  
 You can subtract two pointers to determine the number of elements between them.
 
 ```c
@@ -1876,7 +1878,7 @@ int main() {
     int *ptr1 = &arr[1]; // Points to 10
     int *ptr2 = &arr[5]; // Points to 30
 
-    printf("Difference: %ld\n", ptr2 - ptr1);
+    printf("Difference: %d\n", ptr2 - ptr1);
 
     return 0;
 }
@@ -1887,7 +1889,7 @@ Difference: 4
 ```
 The output shows that `ptr2` is 4 elements ahead of `ptr1`.
 
-### **Pointer Comparisons**  
+**Pointer Comparisons**  
 Pointers can be compared using comparison operators:
 
 ```c
@@ -1910,11 +1912,10 @@ p1 points to an earlier element than p2.
 ```
 Pointers are compared based on their memory addresses.
 
----
 
-## **Pointers for Array Processing**  
+### Pointers for Array Processing  
 
-### **Method 1: Using Pointer Notation**  
+**Method 1: Using Pointer Notation**  
 We can traverse an array using explicit pointer notation:
 
 ```c
@@ -1925,7 +1926,7 @@ int main() {
     int *ptr = arr;
 
     for (int i = 0; i < 5; i++) {
-        printf("%d ", *(ptr + i));
+        printf("%d ", *(ptr + i)); //add i = 1,2,3... to the pointer to access the next element and then dereference it
     }
     return 0;
 }
@@ -1935,29 +1936,6 @@ int main() {
 3 6 9 12 15
 ```
 Here, `*(ptr + i)` accesses the ith element.
-
-### **Method 2: Using Array Name as a Pointer**  
-Since an array name itself is a pointer, the following is equivalent:
-
-```c
-#include <stdio.h>
-
-int main() {
-    int arr[] = {3, 6, 9, 12, 15};
-
-    for (int i = 0; i < 5; i++) {
-        printf("%d ", *(arr + i));
-    }
-    return 0;
-}
-```
-**Output:**  
-```
-3 6 9 12 15
-```
-Both methods achieve the same result.
-
----
 
 ## **Real-World Example: Using Pointers with Arrays**  
 
