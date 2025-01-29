@@ -62,6 +62,7 @@ I have also tried to cover some niche syntax that is not covered in most tutoria
     - [Pointer Arithmetic](#pointer-arithmetic)  
     - [Pointers for Array Processing](#pointers-for-array-processing)  
     - [Real-World Example: Using Pointers with Arrays](#real-world-example-using-pointers-with-arrays)  
+11. [Example Program: Interactive Tic Tac Toe](#tic-tac-toe-example-with-pointers-functions-variables-and-arrays)
    
 
 ## Section 1: Basic Program Structure, Directives, Linking, Compiling
@@ -1969,4 +1970,120 @@ int main() {
 The maximum value in the array is: 89
 ```
 
+## Tic Tac Toe Example with Pointers, Functions, Variables and Arrays
+This is a complete self-contained program, try copying pasting this into an online free C compiler like [Programiz](https://www.programiz.com/c-programming/online-compiler/) to see it in action.
 
+This can be improved in many ways, try improving it!
+
+```c
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdbool.h>
+
+#define ROWS 3
+#define COLS 3
+
+// Function to print the Tic-Tac-Toe grid
+void gridPrinter(char board[ROWS][COLS]) {
+    printf("Tic-Tac-Toe Board:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf(" %c ", board[i][j]); // Print the cell value
+            if (j < COLS - 1) {
+                printf("|"); // Separator between columns except for the last column
+            }
+        }
+        printf("\n");
+
+        // Print a horizontal line after each row except the last
+        if (i < ROWS - 1) {
+            printf("---|---|---\n");
+        }
+    }
+}
+
+// Function to check if there is a winner
+char checkWinner(char board[ROWS][COLS]) {
+    // Check rows and columns
+    for (int i = 0; i < ROWS; i++) {
+        if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != ' ')
+            return board[i][0]; // Row win
+        if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[0][i] != ' ')
+            return board[0][i]; // Column win
+    }
+
+    // Check diagonals
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != ' ')
+        return board[0][0]; // Main diagonal
+    if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != ' ')
+        return board[0][2]; // Secondary diagonal
+
+    return ' '; // No winner yet
+}
+
+// Function to check if the board is full (draw)
+bool isBoardFull(char board[ROWS][COLS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (board[i][j] == ' ')
+                return false; // Found an empty space, not full
+        }
+    }
+    return true;
+}
+
+int main() {
+    // Initialize an empty 3x3 Tic-Tac-Toe board
+    char board[ROWS][COLS] = {
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+        {' ', ' ', ' '}
+    };
+
+    bool gameState = true;
+    char currentPlayer = 'X'; // X starts first
+    int xCoord, yCoord;
+    
+    while (gameState) {
+        // Print the current board
+        gridPrinter(board);
+
+        // Get user input
+        printf("Player %c, enter your move (row and column: 0 0 to 2 2): ", currentPlayer);
+        scanf("%d %d", &xCoord, &yCoord);
+
+        // Validate move
+        if (xCoord < 0 || xCoord >= ROWS || yCoord < 0 || yCoord >= COLS || board[xCoord][yCoord] != ' ') {
+            printf("Invalid move out of range. Try again.\n");
+            continue; // Ask for input again
+        }
+
+        // Place the move
+        board[xCoord][yCoord] = currentPlayer;
+
+        // Check for winner
+        char winner = checkWinner(board);
+        if (winner != ' ') {
+            gridPrinter(board);
+            printf("Player %c wins!\n", winner);
+            gameState = false;
+            break;
+        }
+
+        // Check for draw
+        if (isBoardFull(board)) {
+            gridPrinter(board);
+            printf("It's a draw!\n");
+            gameState = false;
+            break;
+        }
+
+        // Switch player
+        currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+    }
+
+    return 0;
+}
+```
+
+- Notice that `void gridPrinter(char board[ROWS][COLS])` we needed to define it like this because we are passing a 2D array and it needs column size to be defined, you can also define it as `void gridPrinter(char board[][COLS])` and it will work the same way since row can be left empty but column size is required.
